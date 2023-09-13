@@ -56,7 +56,7 @@ namespace Pong
             //GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(); // important comment: dont remove
 
             _spriteBatch.Draw(background, new Rectangle(0, 0, 800, 480), Color.White);
 
