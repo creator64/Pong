@@ -25,7 +25,10 @@ namespace Pong
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            //_graphics.IsFullScreen = false;
+            _graphics.PreferredBackBufferWidth = 1400;
+            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }

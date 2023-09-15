@@ -1,0 +1,43 @@
+﻿Sprite:
+	variables:
+	- image
+	- visibility
+	- size (width, height)
+	- position (x, y) (?)
+	
+	methods:
+	- Draw()
+	- Update(GameTime gameTime)
+	- Collision (Sprite target, Sprite[] otherSprites)
+	- Move(int x, int y)
+
+
+Ball (Sprite):
+	variables:
+	- angle
+	- speed
+	methods: 
+	(no extra methods for now)
+
+
+Player (Sprite):
+	variables:
+	- health
+	- left or right
+	methods:
+	(no extra methods for now)
+
+
+
+Each Frame:
+	- Update Players
+		- Move paddle based on key inputs
+	- Update Ball
+		- Move based on current angle of the ball
+
+	- Draw Players
+		- Draw paddles and health of the player
+	- Draw Ball on the screen
+
+	- Check if the ball collides with the walls or with the paddle and take appropriate action
+	  This check happens inside the logic of the Game class
