@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Pong.Sprites
 {
-    internal class Class1
+    internal class Sprite
     {
     }
 }
