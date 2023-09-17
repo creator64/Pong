@@ -139,7 +139,7 @@ namespace Pong
                 if (keyState.IsKeyDown(Keys.S)) { blueVelocity.Y = -1; } 
             }
 
-
+               // niet af
 
             if (blueRectangle.Bottom >= screenRectangle.Bottom)
             {
