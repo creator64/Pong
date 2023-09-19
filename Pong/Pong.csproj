@@ -11,8 +11,13 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\button.png" />
+    <None Remove="Content\File.spritefont" />
+    <None Remove="Content\font.spritefont" />
+    <None Remove="Content\stars.jpg" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
+    <None Remove="src\button.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
@@ -26,4 +31,5 @@
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />
   </Target>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>

@@ -1,19 +1,22 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Pong.Screens;
 using System;
-using System.Diagnostics;
 
 namespace Pong
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
+        public static string screen = "menu";
+        public static GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        Rectangle screenRectangle;
+        public static Rectangle screenRectangle;
         Texture2D bal;
         Rectangle balRectangle;
         double speed, angle;
+        MenuScreen menuScreen;
 
         public Game1()
         {
@@ -25,6 +28,7 @@ namespace Pong
         protected override void Initialize()
 
         {
+
             screenRectangle = new Rectangle(0, 0, 1400, 800);
 
             balRectangle.Width = 60;
@@ -43,6 +47,7 @@ namespace Pong
 
         protected override void LoadContent()
         {
+            menuScreen = new MenuScreen(Content, _graphics);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             bal = Content.Load<Texture2D>("bal");
         }
@@ -53,12 +58,8 @@ namespace Pong
             return degrees * (Math.PI / 180);
         }
 
-        protected override void Update(GameTime gameTime)
+        private void updateGame(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-           
             int xSpeed = (int)(speed * Math.Cos(Radians(angle)));
             int ySpeed = (int)(speed * Math.Sin(Radians(angle)));
             balRectangle.X += xSpeed;
@@ -83,16 +84,44 @@ namespace Pong
             base.Update(gameTime);
         }
 
-        protected override void Draw(GameTime gameTime)
+        private void DrawGame(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
-
-            GraphicsDevice.Clear(Color.White); 
-            
             _spriteBatch.Begin();
             _spriteBatch.Draw(bal, balRectangle, Color.White);
             _spriteBatch.End();
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+
+            // this switch statement is the same as an if-else statement
+            switch (screen)
+            {
+                case "menu":
+                    menuScreen.Update(gameTime);
+                    break;
+                default:
+                    updateGame(gameTime);
+                    break;
+            }
+        }
+
+        protected override void Draw(GameTime gameTime)
+        {
+
+            switch (screen)
+            {
+                case "menu":
+                    menuScreen.Draw(gameTime);
+                    break;
+                default:
+                    DrawGame(gameTime);
+                    break;
+            }
 
             base.Draw(gameTime);
         }
