@@ -9,8 +9,8 @@ namespace Pong
 {
     public class Game1 : Game
     {
-        public static string screen = "menu";
-        public static GraphicsDeviceManager _graphics;
+        public string screen = "menu";
+        public GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         public static Rectangle screenRectangle;
         Texture2D bal;
@@ -124,6 +124,11 @@ namespace Pong
             }
 
             base.Draw(gameTime);
+        }
+
+        public void setHealth()
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Pong;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace Pong
     internal static class Globals
     {
         public static Color[] PaddleList = { Color.Blue, Color.Red, Color.Black, Color.Orange, Color.Purple };
+        public static Game1 game = new Game1();
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Pong;
 using Pong.Components;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 
 namespace Pong.Screens
 {
@@ -17,6 +19,7 @@ namespace Pong.Screens
         private string instructions = "Controls \n Left Player -> Moving: W and S, Ult: A \n Right Player -> Moving: Up and Down arrow, Ult: Left arrow";
         public PaddleChooser PaddleChooserOne;
         public PaddleChooser PaddleChooserTwo;
+        public Game1 game = Globals.game;
 
         public MenuScreen(ContentManager Content, GraphicsDeviceManager _graphics)
         {
@@ -29,7 +32,7 @@ namespace Pong.Screens
                 Position = new Vector2(Game1.screenRectangle.Center.X - 100, Game1.screenRectangle.Center.Y),
                 Text = "Play",
             };
-            PlayButton.Click += (object sender, System.EventArgs e) => { Game1.screen = "game"; };
+            PlayButton.Click += (object sender, System.EventArgs e) => { game.screen = "game"; };
 
             PaddleChooserOne = new PaddleChooser(new Vector2(Game1.screenRectangle.Center.X + 320, 600), BGColor, Content);
             PaddleChooserTwo = new PaddleChooser(new Vector2(Game1.screenRectangle.Center.X - 350, 600), BGColor, Content);

@@ -1,3 +1,5 @@
 ﻿
-using var game = new Pong.Game1();
+using Pong;
+
+using var game = Globals.game;
 game.Run();

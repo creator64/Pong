@@ -14,6 +14,7 @@ namespace Pong.Components
 {
     internal class PaddleChooser : Component
     {
+        Game1 game = Globals.game;
         public int PaddleIndex = 0;
         Color PaddleColor;
         Vector2 position;
@@ -33,7 +34,7 @@ namespace Pong.Components
             this.position = position;
             this.Content = Content;
 
-            RectangleTexture = new Texture2D(Game1._graphics.GraphicsDevice, 1, 1);
+            RectangleTexture = new Texture2D(game._graphics.GraphicsDevice, 1, 1);
             RectangleTexture.SetData<Color>(new Color[] { Color.White });
 
 
