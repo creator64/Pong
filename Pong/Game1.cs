@@ -23,6 +23,7 @@ namespace Pong
         public string keyW = "keyW/Upblue";
         public string keyS = "keyS/Downblue";
         public float timepassed;
+        public double maxAngle = 60;
 
        
         public float movementSpeed;
@@ -49,7 +50,7 @@ namespace Pong
             balRectangle.Height = 20;
             balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
             balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
-            speed = 4;
+            speed = 12;
             angle = 40;
 
             _graphics.PreferredBackBufferWidth = screenRectangle.Width;
@@ -60,7 +61,7 @@ namespace Pong
             blueRectangle.Height = 133;
             blueRectangle.X = 10;
             blueRectangle.Y = (int)bluePos.Y;
-            movementSpeed = 5;
+            movementSpeed = 15;
 
             redRectangle.Width = 17;
             redRectangle.Height = 133;
@@ -79,9 +80,6 @@ namespace Pong
             bal = Content.Load<Texture2D>("bal");
             blauweSpeler = Content.Load<Texture2D>("blauweSpeler");
             rodeSpeler = Content.Load<Texture2D>("rodeSpeler");
-
-
-
         }
 
         // converts degrees to radians
@@ -123,12 +121,12 @@ namespace Pong
             }
 
             if (balRectangle.Right >= redRectangle.Left && balRectangle.Top >= redRectangle.Top && balRectangle.Bottom <= redRectangle.Bottom)
-            { 
-                angle = 180 - angle; 
+            {
+                angle = 180 - (((balRectangle.Center.Y - redRectangle.Center.Y) / (redRectangle.Height * .5)) * maxAngle);
             }
             if (balRectangle.Left <= blueRectangle.Right && balRectangle.Top >= blueRectangle.Top && balRectangle.Bottom <= blueRectangle.Bottom)
             {
-                angle = 180 - angle;
+                angle = (((balRectangle.Center.Y - blueRectangle.Center.Y) / (blueRectangle.Height * .5)) * maxAngle);
             }
 
             KeyboardState keyState = Keyboard.GetState();
