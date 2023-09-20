@@ -23,7 +23,7 @@ namespace Pong
         public string keyW = "keyW/Upblue";
         public string keyS = "keyS/Downblue";
         public float timepassed;
-        public double maxAngle = 60;
+        public double maxAngle = 45;
 
        
         public float movementSpeed;
@@ -42,15 +42,13 @@ namespace Pong
         protected override void Initialize()
 
         {
-
-           
             screenRectangle = new Rectangle(0, 0, 1400, 800);
 
             balRectangle.Width = 20;
             balRectangle.Height = 20;
             balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
             balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
-            speed = 12;
+            speed = 10;
             angle = 40;
 
             _graphics.PreferredBackBufferWidth = screenRectangle.Width;
@@ -61,7 +59,7 @@ namespace Pong
             blueRectangle.Height = 133;
             blueRectangle.X = 10;
             blueRectangle.Y = (int)bluePos.Y;
-            movementSpeed = 15;
+            movementSpeed = 10;
 
             redRectangle.Width = 17;
             redRectangle.Height = 133;
