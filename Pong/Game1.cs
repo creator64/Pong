@@ -24,6 +24,8 @@ namespace Pong
         public string keyS = "keyS/Downblue";
         public float timepassed;
         public double maxAngle = 45;
+        public int bluePoints;
+        public int redPoints;
 
        
         public float movementSpeed;
@@ -107,6 +109,8 @@ namespace Pong
             {
                 balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
                 balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
+                bluePoints++;
+                speed = 10;
             }
             if (balRectangle.Top <= screenRectangle.Top)
             {
@@ -116,15 +120,19 @@ namespace Pong
             {
                 balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
                 balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
+                redPoints++;
+                speed = 10;
             }
 
             if (balRectangle.Right >= redRectangle.Left && balRectangle.Top >= redRectangle.Top && balRectangle.Bottom <= redRectangle.Bottom)
             {
                 angle = 180 - (((balRectangle.Center.Y - redRectangle.Center.Y) / (redRectangle.Height * .5)) * maxAngle);
+                speed += .3;
             }
             if (balRectangle.Left <= blueRectangle.Right && balRectangle.Top >= blueRectangle.Top && balRectangle.Bottom <= blueRectangle.Bottom)
             {
                 angle = (((balRectangle.Center.Y - blueRectangle.Center.Y) / (blueRectangle.Height * .5)) * maxAngle);
+                speed += .3;            
             }
 
             KeyboardState keyState = Keyboard.GetState();
@@ -215,9 +223,13 @@ namespace Pong
             
             _spriteBatch.Begin();
 
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (bluePoints.ToString()), new Vector2(250, 300), new Color(0, 0, 255, 0.5f));
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (redPoints.ToString()), new Vector2(1050, 300), new Color(255, 0, 0, 0.5f));
             _spriteBatch.Draw(bal, balRectangle, Color.White);
             _spriteBatch.Draw(blauweSpeler, blueRectangle , Color.White);
             _spriteBatch.Draw(rodeSpeler, redRectangle, Color.White);
+           
+           
             _spriteBatch.End();
             
             base.Draw(gameTime);

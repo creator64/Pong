@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:blauweSpeler.png
 
+#begin fonts/scorefont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/scorefont.spritefont
+
 #begin rodeSpeler.png
 /importer:TextureImporter
 /processor:TextureProcessor
