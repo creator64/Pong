@@ -12,10 +12,14 @@ namespace Pong
         SpriteBatch _spriteBatch;
         Rectangle screenRectangle;
         Rectangle blueRectangle;
+        Rectangle redRectangle;
         Texture2D bal;
         Vector2 bluePos;
         Vector2 blueVelocity;
+        Vector2 redPos;
+        Vector2 redVelocity;
         Texture2D blauweSpeler;
+        Texture2D rodeSpeler;
         public string keyW = "keyW/Upblue";
         public string keyS = "keyS/Downblue";
         public float timepassed;
@@ -45,8 +49,8 @@ namespace Pong
             balRectangle.Height = 20;
             balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
             balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
-            speed = 5;
-            angle = 72;
+            speed = 4;
+            angle = 40;
 
             _graphics.PreferredBackBufferWidth = screenRectangle.Width;
             _graphics.PreferredBackBufferHeight = screenRectangle.Height;
@@ -56,9 +60,13 @@ namespace Pong
             blueRectangle.Height = 133;
             blueRectangle.X = 10;
             blueRectangle.Y = (int)bluePos.Y;
-            movementSpeed = 8;
+            movementSpeed = 5;
 
-
+            redRectangle.Width = 17;
+            redRectangle.Height = 133;
+            redRectangle.X = 1370;
+            redRectangle.Y = (int)redPos.Y;
+            
 
 
 
@@ -70,8 +78,8 @@ namespace Pong
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             bal = Content.Load<Texture2D>("bal");
             blauweSpeler = Content.Load<Texture2D>("blauweSpeler");
+            rodeSpeler = Content.Load<Texture2D>("rodeSpeler");
 
-            
 
 
         }
@@ -87,12 +95,6 @@ namespace Pong
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-           
-
-           
-
-            
-
 
            
 
@@ -107,7 +109,8 @@ namespace Pong
             }
             if (balRectangle.Right >= screenRectangle.Right)
             {
-                angle = 180 - angle;
+                balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
+                balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
             }
             if (balRectangle.Top <= screenRectangle.Top)
             {
@@ -115,46 +118,49 @@ namespace Pong
             }
             if (balRectangle.Left <= screenRectangle.Left)
             {
+                balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
+                balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
+            }
+
+            if (balRectangle.Right >= redRectangle.Left && balRectangle.Top >= redRectangle.Top && balRectangle.Bottom <= redRectangle.Bottom)
+            { 
+                angle = 180 - angle; 
+            }
+            if (balRectangle.Left <= blueRectangle.Right && balRectangle.Top >= blueRectangle.Top && balRectangle.Bottom <= blueRectangle.Bottom)
+            {
                 angle = 180 - angle;
             }
 
-
-           
-
             KeyboardState keyState = Keyboard.GetState();
 
+            if (keyState.IsKeyDown(Keys.W)) {
 
+                blueVelocity.Y = 1;
+                if (blueRectangle.Top <= screenRectangle.Top)
+                {
+                    blueVelocity.Y = 0;
+                }
 
-
-            if (blueRectangle.Top >= screenRectangle.Top)
-            {
-                if (keyState.IsKeyDown(Keys.W)) { blueVelocity.Y = 1; }
-
-                if (keyState.IsKeyDown(Keys.S)) { blueVelocity.Y = -1; }
-
-                if (blueVelocity != Vector2.Zero) { blueVelocity.Normalize(); }
             }
-            if (blueRectangle.Top < screenRectangle.Top)
+
+            if (keyState.IsKeyDown(Keys.S)) {
+                blueVelocity.Y = -1;
+                if (blueRectangle.Bottom >= screenRectangle.Bottom)
+                {
+                    blueVelocity.Y = 0;
+                }
+
+            }
+
+            if (blueVelocity != Vector2.Zero) 
             { 
-                if (keyState.IsKeyDown(Keys.S)) { blueVelocity.Y = -1; } 
-            }
-
-               // niet af
-
-            if (blueRectangle.Bottom >= screenRectangle.Bottom)
-            {
-                if (keyState.IsKeyDown(Keys.W)) { blueVelocity.Y = 1; }
-
-                if (keyState.IsKeyDown(Keys.S)) { blueVelocity.Y = -1; }
-
-                if (blueVelocity != Vector2.Zero) { blueVelocity.Normalize(); }
-            }
-            if (blueRectangle.Bottom < screenRectangle.Bottom)
-            {
-                if (keyState.IsKeyDown(Keys.W)) { blueVelocity.Y = 1; }
+                blueVelocity.Normalize(); 
             }
 
 
+            
+            
+          
 
             bluePos.Y -= blueVelocity.Y * movementSpeed;
 
@@ -162,7 +168,44 @@ namespace Pong
 
             blueRectangle.Y = (int)bluePos.Y;
 
-           
+
+
+            if (keyState.IsKeyDown(Keys.Up))
+            {
+                redVelocity.Y = 1;
+                if (redRectangle.Top <= screenRectangle.Top)
+                {
+                    redVelocity.Y = 0;
+                }
+
+            }
+
+            if (keyState.IsKeyDown(Keys.Down))
+            {
+                redVelocity.Y = -1;
+                if (redRectangle.Bottom >= screenRectangle.Bottom)
+                {
+                    redVelocity.Y = 0;
+                }
+
+            }
+
+            if (redVelocity != Vector2.Zero)
+            {
+                redVelocity.Normalize();
+            }
+
+
+
+
+
+
+            redPos.Y -= redVelocity.Y * movementSpeed;
+
+            redVelocity = Vector2.Zero;
+
+            redRectangle.Y = (int)redPos.Y;
+
 
             base.Update(gameTime);
         }
@@ -178,7 +221,7 @@ namespace Pong
 
             _spriteBatch.Draw(bal, balRectangle, Color.White);
             _spriteBatch.Draw(blauweSpeler, blueRectangle , Color.White);
-
+            _spriteBatch.Draw(rodeSpeler, redRectangle, Color.White);
             _spriteBatch.End();
             
             base.Draw(gameTime);
