@@ -34,7 +34,7 @@ namespace Pong.Components
             this.position = position;
             this.Content = Content;
 
-            RectangleTexture = new Texture2D(game._graphics.GraphicsDevice, 1, 1);
+            RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);
             RectangleTexture.SetData<Color>(new Color[] { Color.White });
 
 

@@ -9,10 +9,10 @@ namespace Pong
 {
     public class Game1 : Game
     {
-        public string screen = "menu";
-        public GraphicsDeviceManager _graphics;
+        public string StateScreen = "menu";
+        public readonly GraphicsDeviceManager Graphics;
         SpriteBatch _spriteBatch;
-        public static Rectangle screenRectangle;
+        public Rectangle screenRectangle;
         Texture2D bal;
         Rectangle balRectangle;
         double speed, angle;
@@ -20,7 +20,7 @@ namespace Pong
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -38,16 +38,16 @@ namespace Pong
             speed = 5;
             angle = 72;
 
-            _graphics.PreferredBackBufferWidth = screenRectangle.Width;
-            _graphics.PreferredBackBufferHeight = screenRectangle.Height;
-            _graphics.ApplyChanges();
+            Graphics.PreferredBackBufferWidth = screenRectangle.Width;
+            Graphics.PreferredBackBufferHeight = screenRectangle.Height;
+            Graphics.ApplyChanges();
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            menuScreen = new MenuScreen(Content, _graphics);
+            menuScreen = new MenuScreen(Content, Graphics);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             bal = Content.Load<Texture2D>("bal");
         }
@@ -99,7 +99,7 @@ namespace Pong
                 Exit();
 
             // this switch statement is the same as an if-else statement
-            switch (screen)
+            switch (StateScreen)
             {
                 case "menu":
                     menuScreen.Update(gameTime);
@@ -113,7 +113,7 @@ namespace Pong
         protected override void Draw(GameTime gameTime)
         {
 
-            switch (screen)
+            switch (StateScreen)
             {
                 case "menu":
                     menuScreen.Draw(gameTime);
