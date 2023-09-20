@@ -49,7 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:../src/button.png;button.png
 
-#begin bal.png
+#begin blauweSpeler.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,7 +59,26 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:bal.png
+/build:blauweSpeler.png
+
+#begin fonts/scorefont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/scorefont.spritefont
+
+#begin rodeSpeler.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:rodeSpeler.png
 
 #begin fonts/description.spritefont
 /importer:FontDescriptionImporter
@@ -82,7 +101,7 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/headerfont.spritefont
 
-#begin shuttle.png
+#begin bal.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -92,5 +111,4 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:shuttle.png
-
+/build:bal.png
