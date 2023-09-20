@@ -215,7 +215,7 @@ namespace Pong
         {
             GraphicsDevice.Clear(Color.White);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
 
             _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (bluePoints.ToString()), new Vector2(250, 300), new Color(0, 0, 255, 0.5f));
             _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (redPoints.ToString()), new Vector2(1050, 300), new Color(255, 0, 0, 0.5f));
