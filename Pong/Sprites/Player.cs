@@ -1,18 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Pong.Ults;
 
 namespace Pong.Sprites
 {
-    internal class Player : Sprite
+    public class Player : Sprite
     {
         public int points = 0;
         public readonly Side side;
-        public float movementSpeed = 10;
-        public int wallOffset = 10;
+        private float movementSpeed = 10;
+        private int wallOffset = 10;
         private const int width = 17, height = 133;
         private readonly Keys KeyUp, KeyDown, KeyUlt;
-        
+        public Ult ult;
         
         public Player(Side side)
         {
@@ -23,12 +24,12 @@ namespace Pong.Sprites
                 case Side.Left:
                     image = game.Content.Load<Texture2D>("blauweSpeler");
                     Rect.X = wallOffset;
-                    KeyUp = Keys.W; KeyDown = Keys.S;
+                    KeyUp = Keys.W; KeyDown = Keys.S; KeyUlt = Keys.LeftShift;
                     break;
                 case Side.Right:
                     image = game.Content.Load<Texture2D>("rodeSpeler");
                     Rect.X = game.screenRectangle.Width - width - wallOffset;
-                    KeyUp = Keys.Up; KeyDown = Keys.Down;
+                    KeyUp = Keys.Up; KeyDown = Keys.Down; KeyUlt = Keys.RightShift;
                     break;
             }
             Rect.Y = game.screenRectangle.Center.Y - height / 2;
@@ -36,6 +37,7 @@ namespace Pong.Sprites
 
         public override void Update()
         {
+            ult.Update();
             var keyState = Keyboard.GetState();
             var blueVelocity = Vector2.Zero;
             var (sprite, border) = Collision();
@@ -47,6 +49,11 @@ namespace Pong.Sprites
                 if (border != Border.BottomBorder) blueVelocity.Y = -1;
             }
 
+            if (keyState.IsKeyDown(KeyUlt))
+            {
+                ult.activateUlt();
+            }
+
             if (blueVelocity != Vector2.Zero) blueVelocity.Normalize(); 
             
             Move(0, -blueVelocity.Y * movementSpeed);
@@ -54,6 +61,7 @@ namespace Pong.Sprites
 
         public override void Draw()
         {
+            ult.Draw();
             Vector2 pos = new Vector2(1050, 300); Color color = new Color(255, 0, 0, 0.5f);
             if (side == Side.Left)
             {
@@ -66,7 +74,7 @@ namespace Pong.Sprites
         
     }
 
-    internal enum Side
+    public enum Side
     {
         Left,
         Right

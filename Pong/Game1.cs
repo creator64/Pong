@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace Pong
 {
+    // TODO: make possibility to collect coins
     public class Game1 : Game
     {
         public string StateScreen = "menu";
@@ -14,7 +15,7 @@ namespace Pong
         public SpriteBatch _spriteBatch;
         public List<Sprite> SpriteList;
         public Rectangle screenRectangle;
-        private Ball BallSprite;
+        public Ball BallSprite;
         private Player PlayerLeft;
         private Player PlayerRight;
         MenuScreen menuScreen;

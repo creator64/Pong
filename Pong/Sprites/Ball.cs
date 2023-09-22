@@ -6,11 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace Pong.Sprites
 {
-    internal class Ball: Sprite
+    public class Ball: Sprite
     {
         public double speed = 10;
         public double angle, maxAngle = 45;
         public static int size = 20;
+        public Player lastPlayerTouched;
 
         public Ball(Vector2 pos)
         {
@@ -37,6 +38,7 @@ namespace Pong.Sprites
             if (spriteCollidedWith != null && spriteCollidedWith.GetType() == typeof(Player))
             {
                 var player = (Player) spriteCollidedWith;
+                lastPlayerTouched = player;
                 
                 if (player.side == Side.Right)
                     angle = 180 - (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
