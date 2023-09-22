@@ -12,5 +12,11 @@ namespace Pong
     {
         public static Color[] PaddleList = { Color.Blue, Color.Red, Color.Black, Color.Orange, Color.Purple };
         public static Game1 game = new Game1();
+        
+        // converts degrees to radians
+        public static double Radians(double degrees)
+        {
+            return degrees * (Math.PI / 180);
+        }
     }
 }

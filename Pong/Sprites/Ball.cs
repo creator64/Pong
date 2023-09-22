@@ -1,12 +1,66 @@
-﻿using System;
+﻿using Rectangle = Microsoft.Xna.Framework.Rectangle;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace Pong.Sprites
 {
-    internal class Ball
+    internal class Ball: Sprite
     {
+        public double speed = 10;
+        public double angle, maxAngle = 45;
+        public static int size = 20;
+
+        public Ball(Vector2 pos)
+        {
+            angle = new Random().NextDouble() * maxAngle; // a random number between 0 and maxAngle (in this case 45)
+            image = game.Content.Load<Texture2D>("bal");
+            Rect = new Rectangle((int)pos.X, (int)pos.Y, size, size);
+        }
+
+        private void ReverseAngle() { angle = 360 - angle; }
+
+        private void handleCollision()
+        {
+            var (spriteCollidedWith, border) = Collision(game.SpriteList);
+            
+            // collision with top and bottom
+            if (border == Border.TopBorder | border == Border.BottomBorder) { ReverseAngle(); }
+            
+            // collision with a paddle of a player
+            if (spriteCollidedWith != null && spriteCollidedWith.GetType() == typeof(Player))
+            {
+                var player = (Player) spriteCollidedWith;
+                
+                if (player.side == Side.Right)
+                    angle = 180 - (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
+                else if (player.side == Side.Left)
+                    angle = (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
+                
+                speed += .3;
+            }
+            
+            // collision with the side walls
+            if (border == Border.LeftBorder | border == Border.RightBorder)
+            {
+                game.OnHitSideWall(border);
+            }
+        }
+        
+        public override void Update()
+        {
+            var x = (speed * Math.Cos(Globals.Radians(angle)));
+            var y = (speed * Math.Sin(Globals.Radians(angle)));
+            Move(x, y);
+
+            handleCollision();
+        }
+
+        public override void Draw()
+        {
+            game._spriteBatch.Draw(image, Rect, Color.White);
+        }
     }
 }
+

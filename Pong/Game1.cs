@@ -2,7 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Pong.Screens;
-using System;
+using Pong.Sprites;
+using System.Collections.Generic;
 
 namespace Pong
 {
@@ -10,11 +11,16 @@ namespace Pong
     {
         public string StateScreen = "menu";
         public readonly GraphicsDeviceManager Graphics;
-        SpriteBatch _spriteBatch;
+        public SpriteBatch _spriteBatch;
+        public List<Sprite> SpriteList;
         public Rectangle screenRectangle;
-        Rectangle blueRectangle;
+        private Ball BallSprite;
+        private Player PlayerLeft;
+        private Player PlayerRight;
+        MenuScreen menuScreen;
+        /*Rectangle blueRectangle;
         Rectangle redRectangle;
-        Texture2D bal;
+        Texture2D oldBal;
         Vector2 bluePos;
         Vector2 blueVelocity;
         Vector2 redPos;
@@ -27,13 +33,9 @@ namespace Pong
         public double maxAngle = 45;
         public int bluePoints;
         public int redPoints;
-
-       
         public float movementSpeed;
-
-        Rectangle balRectangle;
         double speed, angle;
-        MenuScreen menuScreen;
+        Rectangle balRectangle;*/
 
         public Game1()
         {
@@ -43,21 +45,21 @@ namespace Pong
         }
 
         protected override void Initialize()
-
         {
-
+            
             screenRectangle = new Rectangle(0, 0, 1400, 800);
+            
+            Graphics.PreferredBackBufferWidth = screenRectangle.Width;
+            Graphics.PreferredBackBufferHeight = screenRectangle.Height;
+            Graphics.ApplyChanges();
+            
 
-            balRectangle.Width = 20;
+            /*balRectangle.Width = 20;
             balRectangle.Height = 20;
             balRectangle.X = screenRectangle.Width / 2 - balRectangle.Width / 2;
             balRectangle.Y = screenRectangle.Height / 2 - balRectangle.Height / 2;
             speed = 10;
             angle = 40;
-
-            Graphics.PreferredBackBufferWidth = screenRectangle.Width;
-            Graphics.PreferredBackBufferHeight = screenRectangle.Height;
-            Graphics.ApplyChanges();
 
             blueRectangle.Width = 17;
             blueRectangle.Height = 133;
@@ -68,33 +70,49 @@ namespace Pong
             redRectangle.Width = 17;
             redRectangle.Height = 133;
             redRectangle.X = 1370;
-            redRectangle.Y = (int)redPos.Y;
-            
-
-
+            redRectangle.Y = (int)redPos.Y;*/
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            menuScreen = new MenuScreen(Content, Graphics);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            bal = Content.Load<Texture2D>("bal");
+            
+            menuScreen = new MenuScreen(Content, Graphics);
+            
+            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
+            PlayerLeft = new Player(Side.Left);
+            PlayerRight = new Player(Side.Right);
+            SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
+            
+            /*oldBal = Content.Load<Texture2D>("bal");
             blauweSpeler = Content.Load<Texture2D>("blauweSpeler");
-            rodeSpeler = Content.Load<Texture2D>("rodeSpeler");
+            rodeSpeler = Content.Load<Texture2D>("rodeSpeler");*/
         }
 
-        // converts degrees to radians
-        protected double Radians(double degrees)
+        public void OnHitSideWall(Border border)
         {
-            return degrees * (Math.PI / 180);
+            if (border == Border.LeftBorder | border == Border.RightBorder)
+            {
+                if (border == Border.LeftBorder)
+                    PlayerRight.points++;
+                else PlayerLeft.points++;
+                
+                BallSprite.MoveTo(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2);
+                BallSprite.speed = 10;
+            }
         }
 
         private void updateGame(GameTime gameTime)
         {
-            int xSpeed = (int)(speed * Math.Cos(Radians(angle)));
-            int ySpeed = (int)(speed * Math.Sin(Radians(angle)));
+            foreach (var sprite in SpriteList)
+            {
+                sprite.Update();
+            }
+
+            /*int xSpeed = (int)(speed * Math.Cos(Globals.Radians(angle)));
+            int ySpeed = (int)(speed * Math.Sin(Globals.Radians(angle)));
             balRectangle.X += xSpeed;
             balRectangle.Y += ySpeed;
 
@@ -178,7 +196,6 @@ namespace Pong
                 {
                     redVelocity.Y = 0;
                 }
-
             }
 
             if (keyState.IsKeyDown(Keys.Down))
@@ -205,7 +222,7 @@ namespace Pong
 
             redVelocity = Vector2.Zero;
 
-            redRectangle.Y = (int)redPos.Y;
+            redRectangle.Y = (int)redPos.Y;*/
 
 
             base.Update(gameTime);
@@ -214,16 +231,21 @@ namespace Pong
         private void DrawGame(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.White);
+            
+            _spriteBatch.Begin();
+            
+            foreach (var sprite in SpriteList)
+            {
+                sprite.Draw();
+            }
+            
+            /*_spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (bluePoints.ToString()), new Vector2(250, 300), new Color(0, 0, 255, 0.5f));
+            _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (redPoints.ToString()), new Vector2(1050, 300), new Color(255, 0, 0, 0.5f));*/
 
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied);
-
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (bluePoints.ToString()), new Vector2(250, 300), new Color(0, 0, 255, 0.5f));
-            _spriteBatch.DrawString(Content.Load<SpriteFont>("fonts/scorefont"), (redPoints.ToString()), new Vector2(1050, 300), new Color(255, 0, 0, 0.5f));
-            _spriteBatch.Draw(bal, balRectangle, Color.White);
+            /*_spriteBatch.Draw(oldBal, balRectangle, Color.White);
             _spriteBatch.Draw(blauweSpeler, blueRectangle , Color.White);
-            _spriteBatch.Draw(rodeSpeler, redRectangle, Color.White);
-           
-           
+            _spriteBatch.Draw(rodeSpeler, redRectangle, Color.White);*/
+
             _spriteBatch.End();
         }
 
