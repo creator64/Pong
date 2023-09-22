@@ -16,6 +16,7 @@ Ball (Sprite):
 	variables:
 	- angle
 	- speed
+	- lastTouchedPlayer (for coin collecting)
 	methods: 
 	(no extra methods for now)
 
@@ -26,6 +27,12 @@ Player (Sprite):
 	- left or right
 	methods:
 	(no extra methods for now)
+	
+Coin (Sprite):
+    variables:
+    (no extra variables for now)
+    methods:
+    getCollected()
 
 
 

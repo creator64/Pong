@@ -14,9 +14,14 @@ namespace Pong.Sprites
 
         public Ball(Vector2 pos)
         {
-            angle = new Random().NextDouble() * maxAngle; // a random number between 0 and maxAngle (in this case 45)
+            setRandomAngle();
             image = game.Content.Load<Texture2D>("bal");
             Rect = new Rectangle((int)pos.X, (int)pos.Y, size, size);
+        }
+
+        public void setRandomAngle()
+        {
+            angle = new Random().NextDouble() * maxAngle; // a random number between 0 and maxAngle (in this case 45)
         }
 
         private void ReverseAngle() { angle = 360 - angle; }
