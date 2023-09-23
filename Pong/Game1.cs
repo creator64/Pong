@@ -43,7 +43,11 @@ namespace Pong
         {
             frozen = true;
             StateScreen = "game";
-            LoadContent();
+            
+            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
+            PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
+            PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
+            SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
         }
 
         protected override void LoadContent()
@@ -51,11 +55,6 @@ namespace Pong
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
             menuScreen = new MenuScreen(Content, Graphics);
-            
-            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
-            PlayerLeft = new Player(Side.Left);
-            PlayerRight = new Player(Side.Right);
-            SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
         }
 
         public void OnBallHitSideWall(Border border)

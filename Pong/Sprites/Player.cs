@@ -13,21 +13,22 @@ namespace Pong.Sprites
         private int wallOffset = 10;
         private const int width = 17, height = 133;
         private readonly Keys KeyUp, KeyDown, KeyUlt;
-        public Ult ult;
+        private readonly Ult ult;
         
-        public Player(Side side)
+        public Player(Side side, Ult ult)
         {
             this.side = side;
+            this.ult = ult;
             Rect = new Rectangle(0, 0, width, height);
             switch (this.side) // a switch statement is the same as an if statement
             {
                 case Side.Left:
-                    image = game.Content.Load<Texture2D>("blauweSpeler");
+                    image = game.Content.Load<Texture2D>("Speler1");
                     Rect.X = wallOffset;
                     KeyUp = Keys.W; KeyDown = Keys.S; KeyUlt = Keys.LeftShift;
                     break;
                 case Side.Right:
-                    image = game.Content.Load<Texture2D>("rodeSpeler");
+                    image = game.Content.Load<Texture2D>("Speler2");
                     Rect.X = game.screenRectangle.Width - width - wallOffset;
                     KeyUp = Keys.Up; KeyDown = Keys.Down; KeyUlt = Keys.RightShift;
                     break;
@@ -69,7 +70,7 @@ namespace Pong.Sprites
                 color = new Color(0, 0, 255, 0.5f);
             }
             game._spriteBatch.DrawString(game.Content.Load<SpriteFont>("fonts/scorefont"), (points.ToString()), pos, color);
-            game._spriteBatch.Draw(image, Rect, Color.White);
+            game._spriteBatch.Draw(image, Rect, ult.color);
         }
         
         public void OnBallHitSideWall()

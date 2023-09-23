@@ -7,22 +7,19 @@ namespace Pong.Ults;
 
 public abstract class Ult
 {
-    Color _color;
-    public int coinsRequired;
-    public int coinsCollected;
-    public bool activated;
-    public bool running;
-    public StartOn startOn;
-    public EndOn[] endOn;
-    private Player player;
+    public Color color;
+    protected int coinsRequired;
+    protected StartOn startOn;
+    protected EndOn[] endOn;
+    protected int duration = 5; // only used in combination with EndOn.Timed
+    public string description = "ult description";
+    private int coinsCollected;
+    private bool activated;
+    private bool running;
+    public readonly Player player;
     private long timeStarted;
-    private int duration; // only used in combination with EndOn.Timed
-    protected readonly Game1 game = Globals.game;
-
-    protected Ult(Player player)
-    {
-        this.player = player;
-    }
+    private readonly Game1 game = Globals.game;
+    
     protected abstract void startUlt();
     protected abstract void executeUlt();
     protected abstract void stopUlt();
