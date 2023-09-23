@@ -37,7 +37,7 @@ namespace Pong.Sprites
 
         public override void Update()
         {
-            ult.Update();
+            //ult.Update();
             var keyState = Keyboard.GetState();
             var blueVelocity = Vector2.Zero;
             var (sprite, border) = Collision();
@@ -61,7 +61,7 @@ namespace Pong.Sprites
 
         public override void Draw()
         {
-            ult.Draw();
+            //ult.Draw();
             Vector2 pos = new Vector2(1050, 300); Color color = new Color(255, 0, 0, 0.5f);
             if (side == Side.Left)
             {
@@ -72,6 +72,10 @@ namespace Pong.Sprites
             game._spriteBatch.Draw(image, Rect, Color.White);
         }
         
+        public void OnBallHitSideWall()
+        {
+            ult.OnBallHitSideWall();
+        }
     }
 
     public enum Side

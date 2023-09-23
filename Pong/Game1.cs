@@ -58,10 +58,12 @@ namespace Pong
             SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
         }
 
-        public void OnHitSideWall(Border border)
+        public void OnBallHitSideWall(Border border)
         {
             if (border == Border.LeftBorder | border == Border.RightBorder)
             {
+                PlayerLeft.OnBallHitSideWall(); PlayerRight.OnBallHitSideWall();
+                
                 if (border == Border.LeftBorder)
                     PlayerRight.points++;
                 else PlayerLeft.points++;

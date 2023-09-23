@@ -7,8 +7,10 @@ public class Smash : Ult
     public Smash(Player player) : base(player)
     {
         coinsRequired = 5;
+        startOn = StartOn.HitBall;
+        endOn = new[] { EndOn.HitWallOpponent, EndOn.HitBallOpponent };
     }
     protected override void startUlt(){}
-    public override void executeUlt(){}
-    public override void stopUlt(){}
+    protected override void executeUlt(){}
+    protected override void stopUlt(){}
 }

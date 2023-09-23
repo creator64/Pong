@@ -51,7 +51,7 @@ namespace Pong.Sprites
             // collision with the side walls
             if (border == Border.LeftBorder | border == Border.RightBorder)
             {
-                game.OnHitSideWall(border);
+                game.OnBallHitSideWall(border);
             }
         }
         

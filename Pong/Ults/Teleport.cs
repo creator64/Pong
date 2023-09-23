@@ -2,13 +2,13 @@
 
 namespace Pong.Ults;
 
-public class FreeMove : Ult
+public class Teleport : Ult
 {
-    public FreeMove(Player player) : base(player)
+    public Teleport(Player player) : base(player)
     {
-        coinsRequired = 4;
+        coinsRequired = 3;
         startOn = StartOn.Activation;
-        endOn = new[] { EndOn.Timed };
+        endOn = new[] { EndOn.OneFrame };
     }
     protected override void startUlt(){}
     protected override void executeUlt(){}
