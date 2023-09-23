@@ -16,7 +16,7 @@ public abstract class Ult
     private int coinsCollected;
     private bool activated;
     private bool running;
-    public readonly Player player;
+    public Player player;
     private long timeStarted;
     private readonly Game1 game = Globals.game;
     
