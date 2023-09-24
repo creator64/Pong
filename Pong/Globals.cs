@@ -6,8 +6,8 @@ namespace Pong
 {
     internal static class Globals
     {
-        public static Ult[] UltList = { new Smash(), new Teleport(), new FreeMove() };
-        public static readonly Game1 game = new Game1();
+        public static readonly Game1 game = new();
+        //public static readonly Ult[] UltList = { new Smash(), new Teleport(), new FreeMove() };
         
         // converts degrees to radians
         public static double Radians(double degrees)

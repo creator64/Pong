@@ -12,9 +12,10 @@ namespace Pong.Sprites
         private float movementSpeed = 10;
         private int wallOffset = 10;
         private const int width = 17, height = 133;
+        public int coinsCollected = 0;
         private readonly Keys KeyUp, KeyDown, KeyUlt;
         private readonly Ult ult;
-        
+
         public Player(Side side, Ult ult)
         {
             this.side = side;
@@ -36,9 +37,14 @@ namespace Pong.Sprites
             Rect.Y = game.screenRectangle.Center.Y - height / 2;
         }
 
+        public void collectCoin()
+        {
+            coinsCollected++;
+        }
+
         public override void Update()
         {
-            //ult.Update();
+            ult.Update();
             var keyState = Keyboard.GetState();
             var blueVelocity = Vector2.Zero;
             var (sprite, border) = Collision();
@@ -62,7 +68,7 @@ namespace Pong.Sprites
 
         public override void Draw()
         {
-            //ult.Draw();
+            ult.Draw();
             Vector2 pos = new Vector2(1050, 300); Color color = new Color(255, 0, 0, 0.5f);
             if (side == Side.Left)
             {

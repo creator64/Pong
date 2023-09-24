@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Pong.Screens;
 using Pong.Sprites;
+using Pong.Ults;
 using System.Collections.Generic;
 
 namespace Pong
@@ -10,7 +11,7 @@ namespace Pong
     // TODO: make possibility to collect coins
     public class Game1 : Game
     {
-        public string StateScreen = "menu";
+        private string StateScreen = "menu";
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
         public List<Sprite> SpriteList;
@@ -53,7 +54,6 @@ namespace Pong
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
             menuScreen = new MenuScreen(Content, Graphics);
         }
 
@@ -88,8 +88,7 @@ namespace Pong
                     sprite.Update();
                 }
             }
-
-
+            
             base.Update(gameTime);
         }
 

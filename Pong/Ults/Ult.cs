@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Pong.Sprites;
 
 namespace Pong.Ults;
@@ -13,13 +15,21 @@ public abstract class Ult
     protected EndOn[] endOn;
     protected int duration = 5; // only used in combination with EndOn.Timed
     public string description = "ult description";
-    private int coinsCollected;
     private bool activated;
     private bool running;
+    private readonly int coinSize = 30;
     public Player player;
     private long timeStarted;
     private readonly Game1 game = Globals.game;
-    
+    private readonly Texture2D coinImage;
+    private readonly Texture2D darkCoinImage;
+
+    protected Ult()
+    {
+        coinImage = game.Content.Load<Texture2D>("coin");
+        darkCoinImage = game.Content.Load<Texture2D>("dark coin");
+    }
+
     protected abstract void startUlt();
     protected abstract void executeUlt();
     protected abstract void stopUlt();
@@ -41,10 +51,10 @@ public abstract class Ult
     // this function is called each
     public void activateUlt()
     {
-        if (coinsCollected >= coinsRequired)
+        if (player.coinsCollected >= coinsRequired)
         {
             activated = true;
-            coinsCollected -= coinsRequired;
+            player.coinsCollected -= coinsRequired;
         }
     }
 
@@ -82,7 +92,24 @@ public abstract class Ult
 
     public void Draw()
     {
-        // draw stuff like how many coins we have collected
+        // draw coins
+        var pos = new Rectangle(15, game.screenRectangle.Height - coinSize - 15, coinSize, coinSize); var sign = 1;
+        if (player.side == Side.Right)
+        {
+            Debug.WriteLine("right");
+            pos.X = game.screenRectangle.Width - coinSize - 15;
+            sign = -1;
+        }
+        else Debug.WriteLine("left");
+
+        foreach (var number in Enumerable.Range(1, coinsRequired))
+        {
+            var image = coinImage;
+            if (number > player.coinsCollected) image = darkCoinImage;
+            
+            game._spriteBatch.Draw(image, pos, Color.White);
+            pos.X += (coinSize + 5) * sign;
+        }
     }
     
     public void OnBallHitSideWall()

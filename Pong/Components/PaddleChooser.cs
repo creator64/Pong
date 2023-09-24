@@ -11,23 +11,27 @@ namespace Pong.Components
     {
         readonly Game1 game = Globals.game;
         private int UltIndex = 0;
-        public Ult ult = Globals.UltList[0];
-        Vector2 position;
-        Texture2D RectangleTexture;
-        ContentManager Content;
+        public Ult ult;
+        readonly Vector2 position;
+        readonly Texture2D RectangleTexture;
+        readonly ContentManager Content;
 
-        Button ArrowUpButton;
-        Button ArrowDownButton;
-        private List<Component> Components;
+        readonly Button ArrowUpButton;
+        readonly Button ArrowDownButton;
+        private readonly List<Component> Components;
 
         Color BGColor;
         static double size = .3;
+        
+        private readonly List<Ult> UltList;
 
         public PaddleChooser(Vector2 position, Color BGColor, ContentManager Content)
         {
             this.BGColor = BGColor;
             this.position = position;
             this.Content = Content;
+            UltList = new List<Ult>() { new Smash(), new Teleport(), new FreeMove() } ;
+            ult = UltList[UltIndex];
 
             RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);
             RectangleTexture.SetData<Color>(new Color[] { Color.White });
@@ -77,7 +81,7 @@ namespace Pong.Components
             Debug.WriteLine("clicked " + direction);
             if (direction == "up")
             {
-                if (this.UltIndex == Globals.UltList.Length - 1)
+                if (this.UltIndex == UltList.Count - 1)
                 {
                     this.UltIndex = 0;
                 }
@@ -87,11 +91,11 @@ namespace Pong.Components
             {
                 if (this.UltIndex == 0)
                 {
-                    this.UltIndex = Globals.UltList.Length - 1;
+                    this.UltIndex = UltList.Count - 1;
                 }
                 else this.UltIndex -= 1;
             }
-            this.ult = Globals.UltList[UltIndex];
+            this.ult = UltList[UltIndex];
         }
     }
 }
