@@ -20,7 +20,7 @@ namespace Pong.Sprites
             Rect = new Rectangle((int)pos.X, (int)pos.Y, size, size);
         }
 
-        public void setRandomAngle()
+        private void setRandomAngle()
         {
             angle = new Random().NextDouble() * maxAngle; // a random number between 0 and maxAngle (in this case 45)
         }
@@ -46,6 +46,12 @@ namespace Pong.Sprites
                     angle = (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
                 
                 speed += .3;
+            }
+
+            if (spriteCollidedWith != null && spriteCollidedWith.GetType() == typeof(Coin))
+            {
+                var coin = (Coin) spriteCollidedWith;
+                coin.getCollected();
             }
             
             // collision with the side walls

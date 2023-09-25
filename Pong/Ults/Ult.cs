@@ -54,7 +54,7 @@ public abstract class Ult
         if (player.coinsCollected >= coinsRequired)
         {
             activated = true;
-            player.coinsCollected -= coinsRequired;
+            player.coinsCollected = 0;
         }
     }
 
@@ -96,11 +96,9 @@ public abstract class Ult
         var pos = new Rectangle(15, game.screenRectangle.Height - coinSize - 15, coinSize, coinSize); var sign = 1;
         if (player.side == Side.Right)
         {
-            Debug.WriteLine("right");
             pos.X = game.screenRectangle.Width - coinSize - 15;
             sign = -1;
         }
-        else Debug.WriteLine("left");
 
         foreach (var number in Enumerable.Range(1, coinsRequired))
         {

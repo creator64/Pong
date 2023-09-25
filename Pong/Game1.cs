@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Pong.Screens;
 using Pong.Sprites;
-using Pong.Ults;
+using System;
 using System.Collections.Generic;
 
 namespace Pong
@@ -21,6 +21,8 @@ namespace Pong
         private Player PlayerRight;
         MenuScreen menuScreen;
         private bool frozen = true;
+        private long lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
+        private readonly int coinSpawnTime = 5;
 
         public Game1()
         {
@@ -73,6 +75,19 @@ namespace Pong
             }
         }
 
+        private void handleCoins()
+        {
+            if (DateTimeOffset.Now.ToUnixTimeSeconds() - lastTimeCoinSpawned > coinSpawnTime)
+            {
+                var x = new Random().Next(200, 1200);
+                var y = new Random().Next(200, 600);
+                SpriteList.Add(new Coin(x, y));
+                lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+            SpriteList.RemoveAll(sprite => sprite.GetType() == typeof(Coin) && ((Coin)sprite).collected);
+            // TODO: debug
+        }
+
         private void updateGame(GameTime gameTime)
         {
             var keyState = Keyboard.GetState();
@@ -87,6 +102,7 @@ namespace Pong
                 {
                     sprite.Update();
                 }
+                handleCoins();
             }
             
             base.Update(gameTime);
