@@ -9,7 +9,7 @@ namespace Pong.Sprites
     {
         public int points = 0;
         public readonly Side side;
-        private float movementSpeed = 10;
+        private float movementSpeed = 12;
         private int wallOffset = 10;
         private const int width = 17, height = 133;
         public int coinsCollected = 0;
@@ -82,6 +82,11 @@ namespace Pong.Sprites
         public void OnBallHitSideWall()
         {
             ult.OnBallHitSideWall();
+        }
+
+        public void OnTouchBall()
+        {
+            ult.OnTouchBall();
         }
     }
 

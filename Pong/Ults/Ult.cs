@@ -20,9 +20,11 @@ public abstract class Ult
     private readonly int coinSize = 30;
     public Player player;
     private long timeStarted;
-    private readonly Game1 game = Globals.game;
+    protected readonly Game1 game = Globals.game;
     private readonly Texture2D coinImage;
     private readonly Texture2D darkCoinImage;
+    private Color oldColor;
+    private readonly Color temporaryActivatedColor = Color.Gold;
 
     protected Ult()
     {
@@ -37,6 +39,7 @@ public abstract class Ult
     private void runUlt()
     {
         activated = false;
+        color = oldColor;
         running = true;
         timeStarted = DateTimeOffset.Now.ToUnixTimeSeconds();
         startUlt();
@@ -47,13 +50,14 @@ public abstract class Ult
         running = false;
         stopUlt();
     }
-
-    // this function is called each
+    
     public void activateUlt()
     {
         if (player.coinsCollected >= coinsRequired)
         {
+            oldColor = color; color = temporaryActivatedColor;
             activated = true;
+            color.R += Color.White.R;
             player.coinsCollected = 0;
         }
     }
@@ -61,32 +65,23 @@ public abstract class Ult
     // this function is called each frame by a player
     public void Update()
     {
-        if (activated)
+        if (activated && startOn == StartOn.Activation)
         {
-            switch (startOn)
-            {
-                case StartOn.Activation:
-                    runUlt();
-                    return;
-                case StartOn.HitBall:
-                    if (game.BallSprite.lastPlayerTouched == player) runUlt();
-                    return;
-            }
+            runUlt(); return;
         }
-        else if (running)
+        if (!running) return;
+        
+        executeUlt();
+        if (endOn.Contains(EndOn.OneFrame)) { killUlt(); }
+
+        if (endOn.Contains(EndOn.HitBallOpponent))
         {
-            executeUlt();
-            if (endOn.Contains(EndOn.OneFrame)) { killUlt(); }
-
-            if (endOn.Contains(EndOn.HitBallOpponent))
-            {
-                if (game.BallSprite.lastPlayerTouched != player) { killUlt(); }
-            }
-
-            if (endOn.Contains(EndOn.Timed))
-            {
-                if (DateTimeOffset.Now.ToUnixTimeSeconds() - timeStarted >= duration) { killUlt(); }
-            }
+            if (game.BallSprite.lastPlayerTouched != player) { killUlt(); }
+        }
+        
+        if (endOn.Contains(EndOn.Timed))
+        {
+            if (DateTimeOffset.Now.ToUnixTimeSeconds() - timeStarted >= duration) { killUlt(); }
         }
     }
 
@@ -113,6 +108,11 @@ public abstract class Ult
     public void OnBallHitSideWall()
     {
         if (endOn.Contains(EndOn.HitWallOpponent) && running) { killUlt(); }
+    }
+
+    public void OnTouchBall()
+    {
+        if (activated && startOn == StartOn.HitBall) { runUlt(); }
     }
 }
 

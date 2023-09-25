@@ -12,6 +12,7 @@ namespace Pong.Sprites
         public double angle, maxAngle = 45;
         public static int size = 20;
         public Player lastPlayerTouched;
+        public Color mask = Color.White;
 
         public Ball(Vector2 pos)
         {
@@ -46,6 +47,7 @@ namespace Pong.Sprites
                     angle = (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
                 
                 speed += 4 / speed;
+                player.OnTouchBall();
             }
 
             if (spriteCollidedWith != null && spriteCollidedWith.GetType() == typeof(Coin))
@@ -72,7 +74,7 @@ namespace Pong.Sprites
 
         public override void Draw()
         {
-            game._spriteBatch.Draw(image, Rect, Color.White);
+            game._spriteBatch.Draw(image, Rect, mask);
         }
     }
 }
