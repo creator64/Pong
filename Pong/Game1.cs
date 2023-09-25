@@ -15,6 +15,7 @@ namespace Pong
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
         public List<Sprite> SpriteList;
+        public readonly List<Coin> CoinList = new();
         public Rectangle screenRectangle;
         public Ball BallSprite;
         private Player PlayerLeft;
@@ -72,6 +73,7 @@ namespace Pong
                 BallSprite.MoveTo(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2);
                 BallSprite.speed = 10;
                 frozen = true;
+                CoinList.RemoveAll(c => true);
             }
         }
 
@@ -81,11 +83,10 @@ namespace Pong
             {
                 var x = new Random().Next(200, 1200);
                 var y = new Random().Next(200, 600);
-                SpriteList.Add(new Coin(x, y));
+                CoinList.Add(new Coin(x, y));
                 lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
             }
-            SpriteList.RemoveAll(sprite => sprite.GetType() == typeof(Coin) && ((Coin)sprite).collected);
-            // TODO: debug
+            CoinList.RemoveAll(coin => coin.collected);
         }
 
         private void updateGame(GameTime gameTime)
@@ -98,10 +99,8 @@ namespace Pong
 
             if (!frozen)
             {
-                foreach (var sprite in SpriteList)
-                {
-                    sprite.Update();
-                }
+                foreach (var sprite in SpriteList) { sprite.Update(); }
+                foreach (var coin in CoinList) { coin.Update(); }
                 handleCoins();
             }
             
@@ -128,10 +127,9 @@ namespace Pong
                     new Vector2(523 - moretotheleft, 600), Color.Black);
             }
 
-            foreach (var sprite in SpriteList)
-            {
-                sprite.Draw();
-            }
+            foreach (var sprite in SpriteList) { sprite.Draw(); }
+
+            foreach (var coin in CoinList) { coin.Draw(); }
 
             _spriteBatch.End();
         }

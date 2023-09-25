@@ -26,12 +26,12 @@ namespace Pong.Sprites
                 case Side.Left:
                     image = game.Content.Load<Texture2D>("Speler1");
                     Rect.X = wallOffset;
-                    KeyUp = Keys.W; KeyDown = Keys.S; KeyUlt = Keys.LeftShift;
+                    KeyUp = Keys.W; KeyDown = Keys.S; KeyUlt = Keys.A;
                     break;
                 case Side.Right:
                     image = game.Content.Load<Texture2D>("Speler2");
                     Rect.X = game.screenRectangle.Width - width - wallOffset;
-                    KeyUp = Keys.Up; KeyDown = Keys.Down; KeyUlt = Keys.RightShift;
+                    KeyUp = Keys.Up; KeyDown = Keys.Down; KeyUlt = Keys.Left;
                     break;
             }
             Rect.Y = game.screenRectangle.Center.Y - height / 2;

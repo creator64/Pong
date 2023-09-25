@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Pong;
 using Pong.Components;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 
 namespace Pong.Screens
@@ -15,11 +13,11 @@ namespace Pong.Screens
         private readonly List<Component> _components;
         private readonly GraphicsDeviceManager _graphics;
         private readonly SpriteBatch _spriteBatch;
-        private readonly Color _bgColor = new Color(133, 94, 66);
-        private const string Instructions = "Controls \n Left Player -> Moving: W and S, Ult: A \n Right Player -> Moving: Up and Down arrow, Ult: Left arrow";
-        public PaddleChooser PaddleChooserOne;
-        public PaddleChooser PaddleChooserTwo;
-        private readonly Game1 _game = Globals.game;
+        private readonly Color _bgColor = new (133, 94, 66);
+        private const string Instructions = "Controls \n Left Player -> Moving: W and S, Ult: A \n Right Player -> Moving: Up and Down Arrow, Ult: Left Arrow";
+        public readonly PaddleChooser PaddleChooserOne;
+        public readonly PaddleChooser PaddleChooserTwo;
+        private readonly Game1 game = Globals.game;
 
         public MenuScreen(ContentManager content, GraphicsDeviceManager _graphics)
         {
@@ -29,13 +27,13 @@ namespace Pong.Screens
 
             var playButton = new Button(this._content.Load<Texture2D>("button"), this._content.Load<SpriteFont>("fonts/buttonfont"), new Color(103, 73, 51), new Color(177, 132, 99), 2)
             {
-                Position = new Vector2(_game.screenRectangle.Center.X - 100, _game.screenRectangle.Center.Y),
+                Position = new Vector2(game.screenRectangle.Center.X - 100, game.screenRectangle.Center.Y),
                 Text = "Play",
             };
-            playButton.Click += (object sender, System.EventArgs e) => { _game.NewGame(); };
+            playButton.Click += (object sender, System.EventArgs e) => { game.NewGame(); };
 
-            PaddleChooserOne = new PaddleChooser(new Vector2(_game.screenRectangle.Center.X + 320, 600), _bgColor, content);
-            PaddleChooserTwo = new PaddleChooser(new Vector2(_game.screenRectangle.Center.X - 350, 600), _bgColor, content);
+            PaddleChooserOne = new PaddleChooser(new Vector2(game.screenRectangle.Center.X + 320, 600), _bgColor, content);
+            PaddleChooserTwo = new PaddleChooser(new Vector2(game.screenRectangle.Center.X - 350, 600), _bgColor, content);
 
             _components = new List<Component>()
             {

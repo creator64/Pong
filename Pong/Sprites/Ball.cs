@@ -1,7 +1,7 @@
 ﻿using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace Pong.Sprites
@@ -29,7 +29,7 @@ namespace Pong.Sprites
 
         private void handleCollision()
         {
-            var (spriteCollidedWith, border) = Collision(game.SpriteList);
+            var (spriteCollidedWith, border) = Collision(game.SpriteList.Concat(game.CoinList).ToList()); // a list of both coins and (the other) sprites
             
             // collision with top and bottom
             if (border == Border.TopBorder | border == Border.BottomBorder) { ReverseAngle(); }
@@ -45,7 +45,7 @@ namespace Pong.Sprites
                 else if (player.side == Side.Left)
                     angle = (((Rect.Center.Y - player.Rect.Center.Y) / (player.Rect.Height * .5)) * maxAngle);
                 
-                speed += .3;
+                speed += 4 / speed;
             }
 
             if (spriteCollidedWith != null && spriteCollidedWith.GetType() == typeof(Coin))
