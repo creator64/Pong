@@ -20,7 +20,7 @@ public abstract class Ult
     private readonly int coinSize = 30;
     public Player player;
     private long timeStarted;
-    protected readonly Game1 game = Globals.game;
+    protected readonly Pong game = Globals.game;
     private readonly Texture2D coinImage;
     private readonly Texture2D darkCoinImage;
     private Color oldColor;

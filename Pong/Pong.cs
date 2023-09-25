@@ -8,13 +8,12 @@ using System.Collections.Generic;
 
 namespace Pong
 {
-    // TODO: make possibility to collect coins
-    public class Game1 : Game
+    public class Pong : Game
     {
         private string StateScreen = "menu";
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
-        public List<Sprite> SpriteList;
+        public List<Sprite> ObjectList;
         public readonly List<Coin> CoinList = new();
         public Rectangle screenRectangle;
         public Ball BallSprite;
@@ -25,7 +24,7 @@ namespace Pong
         private long lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
         private readonly int coinSpawnTime = 5;
 
-        public Game1()
+        public Pong()
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -51,7 +50,7 @@ namespace Pong
             BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
             PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
             PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
-            SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
+            ObjectList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
         }
 
         protected override void LoadContent()
@@ -99,7 +98,7 @@ namespace Pong
 
             if (!frozen)
             {
-                foreach (var sprite in SpriteList) { sprite.Update(); }
+                foreach (var sprite in ObjectList) { sprite.Update(); }
                 foreach (var coin in CoinList) { coin.Update(); }
                 handleCoins();
             }
@@ -127,7 +126,7 @@ namespace Pong
                     new Vector2(523 - moretotheleft, 600), Color.Black);
             }
 
-            foreach (var sprite in SpriteList) { sprite.Draw(); }
+            foreach (var sprite in ObjectList) { sprite.Draw(); }
 
             foreach (var coin in CoinList) { coin.Draw(); }
 

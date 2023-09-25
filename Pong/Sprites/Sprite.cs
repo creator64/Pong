@@ -9,7 +9,7 @@ namespace Pong.Sprites
         public Rectangle Rect;
         public Texture2D image;
         private float visibility = 1f;
-        protected readonly Game1 game = Globals.game;
+        protected readonly Pong game = Globals.game;
 
         public (Sprite sprite, Border border) Collision(List<Sprite> otherSprites = null)
         {
@@ -33,8 +33,9 @@ namespace Pong.Sprites
             return (null, Border.None);
         }
 
-        public void Move(double x, double y)
+        protected void Move(double x, double y)
         {
+            // TODO: prevent going trough objects
             Rect.X += (int)x;
             Rect.Y += (int)y;
         }

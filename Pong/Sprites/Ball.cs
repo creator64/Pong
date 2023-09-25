@@ -30,7 +30,7 @@ namespace Pong.Sprites
 
         private void handleCollision()
         {
-            var (spriteCollidedWith, border) = Collision(game.SpriteList.Concat(game.CoinList).ToList()); // a list of both coins and (the other) sprites
+            var (spriteCollidedWith, border) = Collision(game.ObjectList.Concat(game.CoinList).ToList()); // a list of both coins and (the other) sprites
             
             // collision with top and bottom
             if (border == Border.TopBorder | border == Border.BottomBorder) { ReverseAngle(); }

@@ -17,7 +17,7 @@ namespace Pong.Screens
         private const string Instructions = "Controls \n Left Player -> Moving: W and S, Ult: A \n Right Player -> Moving: Up and Down Arrow, Ult: Left Arrow";
         public readonly PaddleChooser PaddleChooserOne;
         public readonly PaddleChooser PaddleChooserTwo;
-        private readonly Game1 game = Globals.game;
+        private readonly Pong game = Globals.game;
 
         public MenuScreen(ContentManager content, GraphicsDeviceManager _graphics)
         {

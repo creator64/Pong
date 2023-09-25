@@ -9,7 +9,7 @@ namespace Pong.Components
 {
     internal class PaddleChooser : Component
     {
-        readonly Game1 game = Globals.game;
+        readonly Pong game = Globals.game;
         private int UltIndex = 0;
         public Ult ult;
         readonly Vector2 position;
