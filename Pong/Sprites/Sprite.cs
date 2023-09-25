@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -33,11 +35,39 @@ namespace Pong.Sprites
             return (null, Border.None);
         }
 
-        protected void Move(double x, double y)
+        protected void Move(double x, double y, bool checkThrough = true)
         {
-            // TODO: prevent going trough objects
-            Rect.X += (int)x;
-            Rect.Y += (int)y;
+            // TODO: prevent going through objects
+            var newPos = new Rectangle(Rect.X + (int)x, Rect.Y + (int)y, Rect.Width, Rect.Height);
+
+            if (!checkThrough)
+            {
+                Rect.X = newPos.X; Rect.Y = newPos.Y;
+                return;
+            }
+            
+            // check if there is a sprite between the two positions
+            /*foreach (var sprite in game.ObjectList)
+            {
+                if (sprite == this) continue;
+                if ((sprite.Rect.Left < Rect.Right && sprite.Rect.Right > newPos.Left) ||
+                    (sprite.Rect.Right > Rect.Left && sprite.Rect.Left < newPos.Right))
+                {
+                    if ((sprite.Rect.Top < Rect.Bottom && sprite.Rect.Bottom > newPos.Top) ||
+                        (sprite.Rect.Bottom > Rect.Top && sprite.Rect.Top < newPos.Bottom))
+                    {
+                        Debug.WriteLine("fixing move size" + sprite.image);
+                        if (x < 0) Rect.X -= (Rect.Left - sprite.Rect.Right);
+                        else Rect.X += (sprite.Rect.Left - Rect.Right);
+                        
+                        if (y < 0) Rect.Y -= (Rect.Top - sprite.Rect.Bottom);
+                        else Rect.X += (sprite.Rect.Top - Rect.Bottom);
+                        Rect.Y = newPos.Y;
+                        return;
+                    }
+                }
+            }*/
+            Rect.X = newPos.X; Rect.Y = newPos.Y;
         }
 
         public void MoveTo(double x, double y)

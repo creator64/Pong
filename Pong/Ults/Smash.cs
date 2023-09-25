@@ -8,7 +8,7 @@ public class Smash : Ult
     private readonly double speedFactor = 2.5;
     public Smash()
     {
-        coinsRequired = 3;
+        coinsRequired = 4;
         startOn = StartOn.HitBall;
         endOn = new[] { EndOn.HitWallOpponent, EndOn.HitBallOpponent };
         color = Color.Orange;

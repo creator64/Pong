@@ -16,7 +16,7 @@ public class Teleport : Ult
 
     protected override void startUlt()
     {
-        player.Rect.Y = game.BallSprite.Rect.Y - player.Rect.Height;
+        player.Rect.Y = game.BallSprite.Rect.Y - player.Rect.Height / 2;
     }
     protected override void executeUlt(){}
     protected override void stopUlt(){}

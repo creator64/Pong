@@ -63,7 +63,7 @@ namespace Pong.Sprites
 
             if (blueVelocity != Vector2.Zero) blueVelocity.Normalize(); 
             
-            Move(0, -blueVelocity.Y * movementSpeed);
+            Move(0, -blueVelocity.Y * movementSpeed, checkThrough: false);
         }
 
         public override void Draw()

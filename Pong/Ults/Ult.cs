@@ -57,7 +57,6 @@ public abstract class Ult
         {
             oldColor = color; color = temporaryActivatedColor;
             activated = true;
-            color.R += Color.White.R;
             player.coinsCollected = 0;
         }
     }
@@ -81,17 +80,23 @@ public abstract class Ult
         
         if (endOn.Contains(EndOn.Timed))
         {
-            if (DateTimeOffset.Now.ToUnixTimeSeconds() - timeStarted >= duration) { killUlt(); }
+            if (timeRunning() >= duration) { killUlt(); }
         }
+    }
+
+    private long timeRunning()
+    {
+        return DateTimeOffset.Now.ToUnixTimeSeconds() - timeStarted;
     }
 
     public void Draw()
     {
+        var offset = 15;
         // draw coins
-        var pos = new Rectangle(15, game.screenRectangle.Height - coinSize - 15, coinSize, coinSize); var sign = 1;
+        var pos = new Rectangle(offset, game.screenRectangle.Height - coinSize - offset, coinSize, coinSize); var sign = 1;
         if (player.side == Side.Right)
         {
-            pos.X = game.screenRectangle.Width - coinSize - 15;
+            pos.X = game.screenRectangle.Width - coinSize - offset;
             sign = -1;
         }
 
@@ -102,6 +107,21 @@ public abstract class Ult
             
             game._spriteBatch.Draw(image, pos, Color.White);
             pos.X += (coinSize + 5) * sign;
+        }
+
+        if (endOn.Contains(EndOn.Timed) && running)
+        {
+            var timeBarLength = 300;
+            var RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);
+            RectangleTexture.SetData(new[] { Color.White });
+            var fraction = timeRunning() / (float)duration;
+
+            var rect = new Rectangle(offset, game.screenRectangle.Height - coinSize - offset - coinSize - 20, (int)(timeBarLength * (1 - fraction)), 30);
+            if (player.side == Side.Right)
+            {
+                rect.X = game.screenRectangle.Width - offset + (int)(fraction * timeBarLength) - timeBarLength;
+            }
+            game._spriteBatch.Draw(RectangleTexture, rect, color); // Draw colored rectangle
         }
     }
     

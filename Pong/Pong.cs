@@ -5,6 +5,7 @@ using Pong.Screens;
 using Pong.Sprites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Pong
 {
@@ -14,15 +15,15 @@ namespace Pong
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
         public List<Sprite> ObjectList;
-        public readonly List<Coin> CoinList = new();
+        public List<Coin> CoinList;
         public Rectangle screenRectangle;
         public Ball BallSprite;
         private Player PlayerLeft;
         private Player PlayerRight;
         MenuScreen menuScreen;
         private bool frozen = true;
-        private long lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
-        private readonly int coinSpawnTime = 5;
+        private long lastTimeCoinSpawned;
+        private readonly int coinSpawnTime = 2;
 
         public Pong()
         {
@@ -46,11 +47,11 @@ namespace Pong
         {
             frozen = true;
             StateScreen = "game";
-            
             BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
             PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
             PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
             ObjectList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
+            CoinList = new List<Coin>();
         }
 
         protected override void LoadContent()
@@ -82,7 +83,7 @@ namespace Pong
             {
                 var x = new Random().Next(200, 1200);
                 var y = new Random().Next(200, 600);
-                CoinList.Add(new Coin(x, y));
+                CoinList.Add(new Coin(x,y));
                 lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
             }
             CoinList.RemoveAll(coin => coin.collected);
@@ -94,6 +95,7 @@ namespace Pong
             if (keyState.IsKeyDown(Keys.Space))
             {
                 frozen = false;
+                lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
             }
 
             if (!frozen)
