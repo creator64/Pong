@@ -1,4 +1,4 @@
-﻿                             using Rectangle = Microsoft.Xna.Framework.Rectangle;
+﻿using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
