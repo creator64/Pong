@@ -9,7 +9,7 @@ public class FreeMove : Ult
     private Keys keyLeft, keyRight;
     public FreeMove()
     {
-        coinsRequired = 1;
+        coinsRequired = 3;
         startOn = StartOn.Activation;
         endOn = new[] { EndOn.Timed };
         duration = 12;

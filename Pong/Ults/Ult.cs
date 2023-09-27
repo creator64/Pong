@@ -15,6 +15,7 @@ public abstract class Ult
     protected EndOn[] endOn;
     protected int duration = 5; // only used in combination with EndOn.Timed
     public string description = "ult description";
+    
     private bool activated;
     private bool running;
     private readonly int coinSize = 30;

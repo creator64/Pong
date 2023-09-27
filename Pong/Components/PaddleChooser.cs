@@ -10,7 +10,7 @@ namespace Pong.Components
     internal class PaddleChooser : Component
     {
         readonly Pong game = Globals.game;
-        private int UltIndex = 0;
+        private int UltIndex;
         public Ult ult;
         readonly Vector2 position;
         readonly Texture2D RectangleTexture;
@@ -23,14 +23,14 @@ namespace Pong.Components
         Color BGColor;
         static double size = .3;
         
-        private readonly List<Ult> UltList;
+        private readonly Ult[] UltList;
 
         public PaddleChooser(Vector2 position, Color BGColor, ContentManager Content)
         {
             this.BGColor = BGColor;
             this.position = position;
             this.Content = Content;
-            UltList = new List<Ult>() { new Smash(), new Teleport(), new FreeMove() } ;
+            UltList = new Ult[] { new Smash(), new Teleport(), new FreeMove(), new InvisibleBall() } ;
             ult = UltList[UltIndex];
 
             RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);
@@ -81,7 +81,7 @@ namespace Pong.Components
             Debug.WriteLine("clicked " + direction);
             if (direction == "up")
             {
-                if (this.UltIndex == UltList.Count - 1)
+                if (this.UltIndex == UltList.Length - 1)
                 {
                     this.UltIndex = 0;
                 }
@@ -91,7 +91,7 @@ namespace Pong.Components
             {
                 if (this.UltIndex == 0)
                 {
-                    this.UltIndex = UltList.Count - 1;
+                    this.UltIndex = UltList.Length - 1;
                 }
                 else this.UltIndex -= 1;
             }
