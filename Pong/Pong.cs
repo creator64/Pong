@@ -3,24 +3,28 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Pong.Screens;
 using Pong.Sprites;
+using System;
 using System.Collections.Generic;
 
 namespace Pong
 {
-    public class Game1 : Game
+    public class Pong : Game
     {
-        public string StateScreen = "menu";
+        private StateScreen stateScreen = StateScreen.Menu;
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
-        public List<Sprite> SpriteList;
+        public List<Sprite> ObjectList;
+        public List<Coin> CoinList;
         public Rectangle screenRectangle;
-        private Ball BallSprite;
-        private Player PlayerLeft;
-        private Player PlayerRight;
+        public Ball BallSprite;
+        public Player PlayerLeft;
+        public Player PlayerRight;
         MenuScreen menuScreen;
         private bool frozen = true;
+        private long lastTimeCoinSpawned;
+        private readonly int coinSpawnTime = 3;
 
-        public Game1()
+        public Pong()
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -41,26 +45,26 @@ namespace Pong
         public void NewGame()
         {
             frozen = true;
-            StateScreen = "game";
-            LoadContent();
+            stateScreen = StateScreen.Game;
+            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
+            PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
+            PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
+            ObjectList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
+            CoinList = new List<Coin>();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
             menuScreen = new MenuScreen(Content, Graphics);
-            
-            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
-            PlayerLeft = new Player(Side.Left);
-            PlayerRight = new Player(Side.Right);
-            SpriteList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
         }
 
-        public void OnHitSideWall(Border border)
+        public void OnBallHitSideWall(Border border)
         {
             if (border == Border.LeftBorder | border == Border.RightBorder)
             {
+                PlayerLeft.OnBallHitSideWall(); PlayerRight.OnBallHitSideWall();
+                
                 if (border == Border.LeftBorder)
                     PlayerRight.points++;
                 else PlayerLeft.points++;
@@ -68,7 +72,20 @@ namespace Pong
                 BallSprite.MoveTo(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2);
                 BallSprite.speed = 10;
                 frozen = true;
+                CoinList.RemoveAll(c => true);
             }
+        }
+
+        private void handleCoins()
+        {
+            if (DateTimeOffset.Now.ToUnixTimeSeconds() - lastTimeCoinSpawned > coinSpawnTime)
+            {
+                var x = new Random().Next(200, 1200);
+                var y = new Random().Next(200, 600);
+                CoinList.Add(new Coin(x,y));
+                lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
+            }
+            CoinList.RemoveAll(coin => coin.collected);
         }
 
         private void updateGame(GameTime gameTime)
@@ -77,17 +94,16 @@ namespace Pong
             if (keyState.IsKeyDown(Keys.Space))
             {
                 frozen = false;
+                lastTimeCoinSpawned = DateTimeOffset.Now.ToUnixTimeSeconds();
             }
 
             if (!frozen)
             {
-                foreach (var sprite in SpriteList)
-                {
-                    sprite.Update();
-                }
+                foreach (var sprite in ObjectList) { sprite.Update(); }
+                foreach (var coin in CoinList) { coin.Update(); }
+                handleCoins();
             }
-
-
+            
             base.Update(gameTime);
         }
 
@@ -111,10 +127,9 @@ namespace Pong
                     new Vector2(523 - moretotheleft, 600), Color.Black);
             }
 
-            foreach (var sprite in SpriteList)
-            {
-                sprite.Draw();
-            }
+            foreach (var sprite in ObjectList) { sprite.Draw(); }
+
+            foreach (var coin in CoinList) { coin.Draw(); }
 
             _spriteBatch.End();
         }
@@ -122,12 +137,12 @@ namespace Pong
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                StateScreen = "menu";
+                stateScreen = StateScreen.Menu;
 
             // this switch statement is the same as an if-else statement
-            switch (StateScreen)
+            switch (stateScreen)
             {
-                case "menu":
+                case StateScreen.Menu:
                     menuScreen.Update(gameTime);
                     break;
                 default:
@@ -138,17 +153,23 @@ namespace Pong
 
         protected override void Draw(GameTime gameTime)
         {
-            switch (StateScreen)
+            switch (stateScreen)
             {
-                case "menu":
+                case StateScreen.Menu:
                     menuScreen.Draw(gameTime);
                     break;
-                default:
+                case StateScreen.Game:
                     DrawGame(gameTime);
                     break;
             }
 
             base.Draw(gameTime);
         }
+    }
+
+    public enum StateScreen
+    {
+        Menu,
+        Game
     }
 }

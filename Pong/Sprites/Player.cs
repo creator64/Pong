@@ -1,41 +1,50 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Pong.Ults;
 
 namespace Pong.Sprites
 {
-    internal class Player : Sprite
+    public class Player : Sprite
     {
         public int points = 0;
         public readonly Side side;
-        public float movementSpeed = 10;
-        public int wallOffset = 10;
+        public float movementSpeed = 12;
+        public readonly int wallOffset = 10;
         private const int width = 17, height = 133;
+        public int coinsCollected;
         private readonly Keys KeyUp, KeyDown, KeyUlt;
-        
-        
-        public Player(Side side)
+        private readonly Ult ult;
+
+        public Player(Side side, Ult ult)
         {
             this.side = side;
+            this.ult = ult; ult.player = this; // kind of ugly but well too bad i guess
             Rect = new Rectangle(0, 0, width, height);
             switch (this.side) // a switch statement is the same as an if statement
             {
                 case Side.Left:
-                    image = game.Content.Load<Texture2D>("blauweSpeler");
+                    image = game.Content.Load<Texture2D>("Speler1");
                     Rect.X = wallOffset;
-                    KeyUp = Keys.W; KeyDown = Keys.S;
+                    KeyUp = Keys.W; KeyDown = Keys.S; KeyUlt = Keys.A;
                     break;
                 case Side.Right:
-                    image = game.Content.Load<Texture2D>("rodeSpeler");
+                    image = game.Content.Load<Texture2D>("Speler2");
                     Rect.X = game.screenRectangle.Width - width - wallOffset;
-                    KeyUp = Keys.Up; KeyDown = Keys.Down;
+                    KeyUp = Keys.Up; KeyDown = Keys.Down; KeyUlt = Keys.Left;
                     break;
             }
             Rect.Y = game.screenRectangle.Center.Y - height / 2;
         }
 
+        public void collectCoin()
+        {
+            coinsCollected++;
+        }
+
         public override void Update()
         {
+            ult.Update();
             var keyState = Keyboard.GetState();
             var blueVelocity = Vector2.Zero;
             var (sprite, border) = Collision();
@@ -47,13 +56,19 @@ namespace Pong.Sprites
                 if (border != Border.BottomBorder) blueVelocity.Y = -1;
             }
 
+            if (keyState.IsKeyDown(KeyUlt))
+            {
+                ult.activateUlt();
+            }
+
             if (blueVelocity != Vector2.Zero) blueVelocity.Normalize(); 
             
-            Move(0, -blueVelocity.Y * movementSpeed);
+            Move(0, -blueVelocity.Y * movementSpeed, checkThrough: false);
         }
 
         public override void Draw()
         {
+            ult.Draw();
             Vector2 pos = new Vector2(1050, 300); Color color = new Color(255, 0, 0, 0.5f);
             if (side == Side.Left)
             {
@@ -61,12 +76,21 @@ namespace Pong.Sprites
                 color = new Color(0, 0, 255, 0.5f);
             }
             game._spriteBatch.DrawString(game.Content.Load<SpriteFont>("fonts/scorefont"), (points.ToString()), pos, color);
-            game._spriteBatch.Draw(image, Rect, Color.White);
+            game._spriteBatch.Draw(image, Rect, ult.color);
         }
         
+        public void OnBallHitSideWall()
+        {
+            ult.OnBallHitSideWall();
+        }
+
+        public void OnTouchBall()
+        {
+            ult.OnTouchBall();
+        }
     }
 
-    internal enum Side
+    public enum Side
     {
         Left,
         Right

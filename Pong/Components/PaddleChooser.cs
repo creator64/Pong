@@ -1,38 +1,37 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+using Pong.Ults;
 
 namespace Pong.Components
 {
     internal class PaddleChooser : Component
     {
-        Game1 game = Globals.game;
-        public int PaddleIndex = 0;
-        Color PaddleColor;
-        Vector2 position;
-        Texture2D RectangleTexture;
-        ContentManager Content;
+        readonly Pong game = Globals.game;
+        private int UltIndex;
+        public Ult ult;
+        readonly Vector2 position;
+        readonly Texture2D RectangleTexture;
+        readonly ContentManager Content;
 
-        Button ArrowUpButton;
-        Button ArrowDownButton;
-        private List<Component> Components;
+        readonly Button ArrowUpButton;
+        readonly Button ArrowDownButton;
+        private readonly List<Component> Components;
 
         Color BGColor;
         static double size = .3;
+        
+        private readonly Ult[] UltList;
 
         public PaddleChooser(Vector2 position, Color BGColor, ContentManager Content)
         {
             this.BGColor = BGColor;
             this.position = position;
             this.Content = Content;
+            UltList = new Ult[] { new Smash(), new Teleport(), new FreeMove(), new InvisibleBall() } ;
+            ult = UltList[UltIndex];
 
             RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);
             RectangleTexture.SetData<Color>(new Color[] { Color.White });
@@ -42,12 +41,12 @@ namespace Pong.Components
             {
                 Position = new Vector2(position.X, (int)(position.Y - 480 * size))
             };
-            ArrowUpButton.Click += (object sender, System.EventArgs e) => { ChangeColor("up"); };
+            ArrowUpButton.Click += (object sender, System.EventArgs e) => { ChangeUlt("up"); };
             ArrowDownButton = new Button(Content.Load<Texture2D>("arrowdown"), Content.Load<SpriteFont>("fonts/buttonfont"), BGColor, BGColor, size)
             { 
                 Position = new Vector2(position.X, position.Y)
             };
-            ArrowDownButton.Click += (object sender, System.EventArgs e) => { ChangeColor("down"); };
+            ArrowDownButton.Click += (object sender, System.EventArgs e) => { ChangeUlt("down"); };
 
             Components = new List<Component>()
             {
@@ -58,14 +57,14 @@ namespace Pong.Components
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var rect = new Rectangle((int)(this.position.X - 175 * size), (int)(position.Y - 205 * size), (int)(600 * size), (int)(144 * size));
-            var text = "Ult: Smashball";
+            var text = ult.description;
             var font = this.Content.Load<SpriteFont>("fonts/description");
 
             var x = (float)((rect.X + (rect.Width / 2)) - (font.MeasureString(text).X / 2) + 40 * size);
             var y = (float)((rect.Y + (rect.Height / 2)) - (font.MeasureString(text).Y / 2) + 450 * size);
 
             spriteBatch.DrawString(font, text, new Vector2(x, y), Color.AntiqueWhite); // Draw description
-            spriteBatch.Draw(RectangleTexture, rect, Globals.PaddleList[this.PaddleIndex]); // Draw colored rectangle
+            spriteBatch.Draw(RectangleTexture, rect, ult.color); // Draw colored rectangle
 
             foreach (var component in Components) // Draw buttons
                 component.Draw(gameTime, spriteBatch);
@@ -77,27 +76,26 @@ namespace Pong.Components
                 component.Update(gameTime);
         }
 
-        public void ChangeColor(string direction)
+        private void ChangeUlt(string direction)
         {
             Debug.WriteLine("clicked " + direction);
             if (direction == "up")
             {
-                if (this.PaddleIndex == Globals.PaddleList.Length - 1)
+                if (this.UltIndex == UltList.Length - 1)
                 {
-                    this.PaddleIndex = 0;
-                    return;
+                    this.UltIndex = 0;
                 }
-                this.PaddleIndex += 1;
+                else this.UltIndex += 1;
             }
             else if (direction == "down")
             {
-                if (this.PaddleIndex == 0)
+                if (this.UltIndex == 0)
                 {
-                    this.PaddleIndex = Globals.PaddleList.Length - 1;
-                    return;
+                    this.UltIndex = UltList.Length - 1;
                 }
-                this.PaddleIndex -= 1;
+                else this.UltIndex -= 1;
             }
+            this.ult = UltList[UltIndex];
         }
     }
 }
