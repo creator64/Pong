@@ -91,7 +91,7 @@ public abstract class Ult
 
     public void Draw()
     {
-        var offset = 15;
+        var offset = 35;
         // draw coins
         var pos = new Rectangle(offset, game.screenRectangle.Height - coinSize - offset, coinSize, coinSize); var sign = 1;
         if (player.side == Side.Right)

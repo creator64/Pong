@@ -47,26 +47,26 @@ namespace Pong.Sprites
             }
             
             // check if there is a sprite between the two positions
-            /*foreach (var sprite in game.ObjectList)
+            foreach (var sprite in game.ObjectList)
             {
                 if (sprite == this) continue;
                 if ((sprite.Rect.Left < Rect.Right && sprite.Rect.Right > newPos.Left) ||
                     (sprite.Rect.Right > Rect.Left && sprite.Rect.Left < newPos.Right))
                 {
-                    if ((sprite.Rect.Top < Rect.Bottom && sprite.Rect.Bottom > newPos.Top) ||
-                        (sprite.Rect.Bottom > Rect.Top && sprite.Rect.Top < newPos.Bottom))
+                    if (Rect.Top <= sprite.Rect.Bottom &&
+                    Rect.Bottom >= sprite.Rect.Top)
                     {
-                        Debug.WriteLine("fixing move size" + sprite.image);
+                        //Debug.WriteLine("fixing move size" + sprite.image);
                         if (x < 0) Rect.X -= (Rect.Left - sprite.Rect.Right);
                         else Rect.X += (sprite.Rect.Left - Rect.Right);
                         
-                        if (y < 0) Rect.Y -= (Rect.Top - sprite.Rect.Bottom);
-                        else Rect.X += (sprite.Rect.Top - Rect.Bottom);
                         Rect.Y = newPos.Y;
                         return;
                     }
                 }
-            }*/
+                
+                // this is only for x, to lazy to implement y as going through the paddle in y is not really realistic in the game
+            }
             Rect.X = newPos.X; Rect.Y = newPos.Y;
         }
 

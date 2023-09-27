@@ -5,13 +5,12 @@ using Pong.Screens;
 using Pong.Sprites;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Pong
 {
     public class Pong : Game
     {
-        private string StateScreen = "menu";
+        private StateScreen stateScreen = StateScreen.Menu;
         public readonly GraphicsDeviceManager Graphics;
         public SpriteBatch _spriteBatch;
         public List<Sprite> ObjectList;
@@ -23,7 +22,7 @@ namespace Pong
         MenuScreen menuScreen;
         private bool frozen = true;
         private long lastTimeCoinSpawned;
-        private readonly int coinSpawnTime = 2;
+        private readonly int coinSpawnTime = 3;
 
         public Pong()
         {
@@ -46,7 +45,7 @@ namespace Pong
         public void NewGame()
         {
             frozen = true;
-            StateScreen = "game";
+            stateScreen = StateScreen.Game;
             BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
             PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
             PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
@@ -138,12 +137,12 @@ namespace Pong
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                StateScreen = "menu";
+                stateScreen = StateScreen.Menu;
 
             // this switch statement is the same as an if-else statement
-            switch (StateScreen)
+            switch (stateScreen)
             {
-                case "menu":
+                case StateScreen.Menu:
                     menuScreen.Update(gameTime);
                     break;
                 default:
@@ -154,17 +153,23 @@ namespace Pong
 
         protected override void Draw(GameTime gameTime)
         {
-            switch (StateScreen)
+            switch (stateScreen)
             {
-                case "menu":
+                case StateScreen.Menu:
                     menuScreen.Draw(gameTime);
                     break;
-                default:
+                case StateScreen.Game:
                     DrawGame(gameTime);
                     break;
             }
 
             base.Draw(gameTime);
         }
+    }
+
+    public enum StateScreen
+    {
+        Menu,
+        Game
     }
 }
