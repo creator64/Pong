@@ -32,7 +32,7 @@ namespace Pong.Screens
                 Position = new Vector2(_game.screenRectangle.Center.X - 100, _game.screenRectangle.Center.Y),
                 Text = "Play",
             };
-            playButton.Click += (object sender, System.EventArgs e) => { _game.StateScreen = "game"; };
+            playButton.Click += (object sender, System.EventArgs e) => { _game.NewGame(); };
 
             PaddleChooserOne = new PaddleChooser(new Vector2(_game.screenRectangle.Center.X + 320, 600), _bgColor, content);
             PaddleChooserTwo = new PaddleChooser(new Vector2(_game.screenRectangle.Center.X - 350, 600), _bgColor, content);
