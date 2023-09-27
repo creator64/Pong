@@ -9,10 +9,10 @@ namespace Pong.Sprites
     {
         public int points = 0;
         public readonly Side side;
-        private float movementSpeed = 12;
-        private int wallOffset = 10;
+        public float movementSpeed = 12;
+        public readonly int wallOffset = 10;
         private const int width = 17, height = 133;
-        public int coinsCollected = 0;
+        public int coinsCollected;
         private readonly Keys KeyUp, KeyDown, KeyUlt;
         private readonly Ult ult;
 

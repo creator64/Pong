@@ -35,7 +35,7 @@ namespace Pong.Sprites
             return (null, Border.None);
         }
 
-        protected void Move(double x, double y, bool checkThrough = true)
+        public void Move(double x, double y, bool checkThrough = true)
         {
             // TODO: prevent going through objects
             var newPos = new Rectangle(Rect.X + (int)x, Rect.Y + (int)y, Rect.Width, Rect.Height);
