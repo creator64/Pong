@@ -17,8 +17,8 @@ namespace Pong
         public List<Coin> CoinList;
         public Rectangle screenRectangle;
         public Ball BallSprite;
-        private Player PlayerLeft;
-        private Player PlayerRight;
+        public Player PlayerLeft;
+        public Player PlayerRight;
         MenuScreen menuScreen;
         private bool frozen = true;
         private long lastTimeCoinSpawned;

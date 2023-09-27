@@ -31,4 +31,6 @@ public class Smash : Ult
         game.BallSprite.speed /= speedFactor;
         game.BallSprite.mask = Color.White;
     }
+
+    protected override void drawUlt(){}
 }

@@ -28,4 +28,6 @@ public class InvisibleBall: Ult
         visibility = 1f;
         game.BallSprite.mask = Color.White;
     }
+
+    protected override void drawUlt(){}
 }

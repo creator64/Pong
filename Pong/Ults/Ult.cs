@@ -36,6 +36,7 @@ public abstract class Ult
     protected abstract void startUlt();
     protected abstract void executeUlt();
     protected abstract void stopUlt();
+    protected abstract void drawUlt();
 
     private void runUlt()
     {
