@@ -5,8 +5,8 @@ namespace Pong.Sprites;
 
 public class Coin : Sprite
 {
-    public bool collected = false;
-    private int size = 60;
+    public bool collected;
+    private int size = 105;
 
     public Coin(int x, int y)
     {

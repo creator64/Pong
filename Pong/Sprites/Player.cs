@@ -12,6 +12,7 @@ namespace Pong.Sprites
         public float movementSpeed = 12;
         public readonly int wallOffset = 10;
         private const int width = 17, height = 133;
+        public bool inverted = false;
         public int coinsCollected;
         public Keys KeyUp, KeyDown, KeyUlt;
         private readonly Ult ult;
@@ -48,13 +49,16 @@ namespace Pong.Sprites
             var keyState = Keyboard.GetState();
             var blueVelocity = Vector2.Zero;
             var (sprite, border) = Collision();
+            var factor = inverted ? -1 : 1;
 
             if (keyState.IsKeyDown(KeyUp)) {
-                if (border != Border.TopBorder) blueVelocity.Y = 1;
+                if ((!inverted && border != Border.TopBorder) || (inverted && border != Border.BottomBorder)) blueVelocity.Y = 1;
             }
             if (keyState.IsKeyDown(KeyDown)) {
-                if (border != Border.BottomBorder) blueVelocity.Y = -1;
+                if ((!inverted && border != Border.BottomBorder) || (inverted && border != Border.TopBorder)) blueVelocity.Y = -1;
             }
+
+            blueVelocity.Y *= factor;
 
             if (keyState.IsKeyDown(KeyUlt))
             {

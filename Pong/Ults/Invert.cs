@@ -15,7 +15,7 @@ public class Invert : Ult
         endOn = new[] { EndOn.Timed };
         duration = 12;
         color = Color.Purple;
-        description = "You can invert the opponents controls for: " + duration + " seconds";
+        description = "You can invert the opponents controls for " + duration + " seconds";
     }
 
     protected override void startUlt()
@@ -23,20 +23,15 @@ public class Invert : Ult
         otherPlayer = game.PlayerRight;
         if (player.side == Side.Right) otherPlayer = game.PlayerLeft;
 
-       /* otherPlayer.KeyUp = Keys.S;
-        otherPlayer.KeyDown = Keys.W;*/
+        otherPlayer.inverted = true;
     }
 
-    protected override void executeUlt()
-    {
-       
-    }
+    protected override void executeUlt() {}
 
     protected override void stopUlt()
     {
-        /*otherPlayer.KeyUp = Keys.W;
-        otherPlayer.KeyDown = Keys.S;*/
+        otherPlayer.inverted = false;
     }
 
-    protected override void drawUlt(){}
+    protected override void DrawUlt(){}
 }
