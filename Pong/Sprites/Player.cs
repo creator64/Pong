@@ -22,7 +22,7 @@ namespace Pong.Sprites
             this.side = side;
             this.ult = ult; ult.player = this; // kind of ugly but well too bad i guess
             Rect = new Rectangle(0, 0, width, height);
-            switch (this.side) // a switch statement is the same as an if statement
+            switch (this.side)
             {
                 case Side.Left:
                     image = game.Content.Load<Texture2D>("Speler1");

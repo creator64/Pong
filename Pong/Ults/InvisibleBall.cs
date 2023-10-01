@@ -8,7 +8,7 @@ public class InvisibleBall: Ult
 
     public InvisibleBall()
     {
-        coinsRequired = 2;
+        coinsRequired = 3;
         startOn = StartOn.HitBall;
         endOn = new[] { EndOn.HitBallOpponent, EndOn.HitSideWall };
         color = Color.Coral;

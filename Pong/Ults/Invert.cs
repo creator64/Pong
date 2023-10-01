@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Pong.Sprites;
 
 namespace Pong.Ults;
@@ -10,7 +9,7 @@ public class Invert : Ult
     private Player otherPlayer;
     public Invert()
     {
-        coinsRequired = 1;
+        coinsRequired = 3;
         startOn = StartOn.Activation;
         endOn = new[] { EndOn.Timed };
         duration = 12;

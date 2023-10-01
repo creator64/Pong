@@ -12,7 +12,7 @@ public class BlackBall: Ult
     
     public BlackBall()
     {
-        coinsRequired = 2;
+        coinsRequired = 4;
         color = Color.Black;
         startOn = StartOn.Activation;
         endOn = new[] { EndOn.Custom, EndOn.HitSideWall };
@@ -25,7 +25,7 @@ public class BlackBall: Ult
         blackBall = new Ball(new Vector2(player.Rect.Center.X, player.Rect.Center.Y), size: 100)
         {
             mask = Color.Black,
-            speed = 32,
+            speed = 35,
         };
         float diffX = otherPlayer.Rect.X - player.Rect.X;
         float diffY = otherPlayer.Rect.Y - player.Rect.Y;

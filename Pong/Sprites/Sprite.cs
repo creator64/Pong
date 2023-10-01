@@ -9,8 +9,7 @@ namespace Pong.Sprites
     public abstract class Sprite
     {
         public Rectangle Rect;
-        public Texture2D image;
-        private float visibility = 1f;
+        protected Texture2D image;
         protected readonly Pong game = Globals.game;
 
         public (Sprite sprite, Border border) Collision(List<Sprite> otherSprites = null)
@@ -70,7 +69,7 @@ namespace Pong.Sprites
             Rect.X = newPos.X; Rect.Y = newPos.Y;
         }
 
-        public void MoveTo(double x, double y)
+        protected void MoveTo(double x, double y)
         {
             Rect.X = (int)x;
             Rect.Y = (int)y;

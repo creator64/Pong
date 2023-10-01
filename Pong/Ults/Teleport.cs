@@ -1,5 +1,4 @@
-﻿using Pong.Sprites;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace Pong.Ults;
 
