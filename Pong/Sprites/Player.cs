@@ -13,7 +13,7 @@ namespace Pong.Sprites
         public readonly int wallOffset = 10;
         private const int width = 17, height = 133;
         public int coinsCollected;
-        private readonly Keys KeyUp, KeyDown, KeyUlt;
+        public Keys KeyUp, KeyDown, KeyUlt;
         private readonly Ult ult;
 
         public Player(Side side, Ult ult)
