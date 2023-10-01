@@ -30,7 +30,7 @@ namespace Pong.Components
             this.BGColor = BGColor;
             this.position = position;
             this.Content = Content;
-            UltList = new Ult[] { new Smash(), new Teleport(), new FreeMove(), new InvisibleBall() } ;
+            UltList = new Ult[] { new Smash(), new Teleport(), new FreeMove(), new InvisibleBall(), new BlackBall() } ;
             ult = UltList[UltIndex];
 
             RectangleTexture = new Texture2D(game.Graphics.GraphicsDevice, 1, 1);

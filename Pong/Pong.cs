@@ -46,7 +46,7 @@ namespace Pong
         {
             frozen = true;
             stateScreen = StateScreen.Game;
-            BallSprite = new Ball(new Vector2(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2));
+            BallSprite = new Ball(Vector2.Zero, moveToMiddle: true);
             PlayerLeft = new Player(Side.Left, menuScreen.PaddleChooserTwo.ult);
             PlayerRight = new Player(Side.Right, menuScreen.PaddleChooserOne.ult);
             ObjectList = new List<Sprite>(){PlayerLeft, PlayerRight, BallSprite};
@@ -69,7 +69,7 @@ namespace Pong
                     PlayerRight.points++;
                 else PlayerLeft.points++;
                 
-                BallSprite.MoveTo(screenRectangle.Width / 2 - Ball.size / 2, screenRectangle.Height / 2 - Ball.size / 2);
+                BallSprite.MoveToMiddle();
                 BallSprite.speed = 10;
                 frozen = true;
                 CoinList.RemoveAll(c => true);

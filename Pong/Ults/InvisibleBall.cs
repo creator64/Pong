@@ -8,9 +8,9 @@ public class InvisibleBall: Ult
 
     public InvisibleBall()
     {
-        coinsRequired = 3;
+        coinsRequired = 2;
         startOn = StartOn.HitBall;
-        endOn = new[] { EndOn.HitBallOpponent, EndOn.HitWallOpponent };
+        endOn = new[] { EndOn.HitBallOpponent, EndOn.HitSideWall };
         color = Color.Coral;
         description = "The next ball you hit will slowly become invisible";
     }
@@ -29,5 +29,5 @@ public class InvisibleBall: Ult
         game.BallSprite.mask = Color.White;
     }
 
-    protected override void drawUlt(){}
+    protected override void DrawUlt(){}
 }

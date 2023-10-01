@@ -20,5 +20,5 @@ public class Teleport : Ult
     }
     protected override void executeUlt(){}
     protected override void stopUlt(){}
-    protected override void drawUlt(){}
+    protected override void DrawUlt(){}
 }

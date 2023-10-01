@@ -10,7 +10,7 @@ public class Smash : Ult
     {
         coinsRequired = 4;
         startOn = StartOn.HitBall;
-        endOn = new[] { EndOn.HitWallOpponent, EndOn.HitBallOpponent };
+        endOn = new[] { EndOn.HitSideWall, EndOn.HitBallOpponent };
         color = Color.Orange;
         description = "You can smash the next ball you receive";
     }
@@ -32,5 +32,5 @@ public class Smash : Ult
         game.BallSprite.mask = Color.White;
     }
 
-    protected override void drawUlt(){}
+    protected override void DrawUlt(){}
 }

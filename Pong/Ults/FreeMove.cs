@@ -53,5 +53,5 @@ public class FreeMove : Ult
         else player.Rect.X = game.screenRectangle.Width - player.wallOffset - player.Rect.Width;
     }
 
-    protected override void drawUlt(){}
+    protected override void DrawUlt(){}
 }

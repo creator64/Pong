@@ -17,7 +17,7 @@ public abstract class Ult
     public string description = "ult description";
     
     private bool activated;
-    private bool running;
+    protected bool running;
     private readonly int coinSize = 30;
     public Player player;
     private long timeStarted;
@@ -36,7 +36,7 @@ public abstract class Ult
     protected abstract void startUlt();
     protected abstract void executeUlt();
     protected abstract void stopUlt();
-    protected abstract void drawUlt();
+    protected abstract void DrawUlt();
 
     private void runUlt()
     {
@@ -47,7 +47,7 @@ public abstract class Ult
         startUlt();
     }
 
-    private void killUlt()
+    protected void killUlt()
     {
         running = false;
         stopUlt();
@@ -93,8 +93,9 @@ public abstract class Ult
 
     public void Draw()
     {
-        var offset = 35;
+        DrawUlt();
         // draw coins
+        var offset = 35;
         var pos = new Rectangle(offset, game.screenRectangle.Height - coinSize - offset, coinSize, coinSize); var sign = 1;
         if (player.side == Side.Right)
         {
@@ -129,7 +130,7 @@ public abstract class Ult
     
     public void OnBallHitSideWall()
     {
-        if (endOn.Contains(EndOn.HitWallOpponent) && running) { killUlt(); }
+        if (endOn.Contains(EndOn.HitSideWall) && running) { killUlt(); }
     }
 
     public void OnTouchBall()
@@ -148,7 +149,7 @@ public enum EndOn
 {
     OneFrame, 
     HitBallOpponent,
-    HitWallOpponent,
+    HitSideWall,
     Timed,
     Custom, // if custom is set the end condition will be set in executeUlt
 }

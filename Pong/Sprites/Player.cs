@@ -68,7 +68,6 @@ namespace Pong.Sprites
 
         public override void Draw()
         {
-            ult.Draw();
             Vector2 pos = new Vector2(1050, 300); Color color = new Color(255, 0, 0, 0.5f);
             if (side == Side.Left)
             {
@@ -77,6 +76,7 @@ namespace Pong.Sprites
             }
             game._spriteBatch.DrawString(game.Content.Load<SpriteFont>("fonts/scorefont"), (points.ToString()), pos, color);
             game._spriteBatch.Draw(image, Rect, ult.color);
+            ult.Draw();
         }
         
         public void OnBallHitSideWall()

@@ -10,15 +10,17 @@ namespace Pong.Sprites
     {
         public double speed = 10;
         public double angle, maxAngle = 45;
-        public static int size = 20;
+        private readonly int size;
         public Player lastPlayerTouched;
         public Color mask = Color.White;
 
-        public Ball(Vector2 pos)
+        public Ball(Vector2 pos, bool moveToMiddle = false, int size = 20)
         {
+            this.size = size;
             setRandomAngle();
             image = game.Content.Load<Texture2D>("bal");
             Rect = new Rectangle((int)pos.X, (int)pos.Y, size, size);
+            if (moveToMiddle) MoveToMiddle();
         }
 
         private void setRandomAngle()
@@ -27,6 +29,11 @@ namespace Pong.Sprites
         }
 
         private void ReverseAngle() { angle = 360 - angle; }
+
+        public void MoveToMiddle()
+        {
+            MoveTo((float)game.screenRectangle.Width / 2 - (float)size / 2, (float)game.screenRectangle.Height / 2 - (float)size / 2);
+        }
 
         private void handleCollision()
         {
